@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pentacle of Inquiry (PIE) Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: rgb(230, 223, 209);
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      margin: 0; padding: 0;
+    }
+    .container {
+      max-width: 840px;
+      margin: 36px auto;
+      background: #fff;
+      border-radius: 26px;
+      box-shadow: 0 4px 36px rgba(60,50,30,0.13);
+      padding: 30px 20px 36px 20px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.4rem;
+      letter-spacing: -1.2px;
+      margin-bottom: 30px;
+      font-weight: 700;
+    }
+    .tabs {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 34px;
+      flex-wrap: wrap;
+    }
+    .tab-btn {
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 12px 30px;
+      border-radius: 19px;
+      font-size: 1.11rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #888;
+      transition: transform 0.09s, box-shadow 0.11s;
+      border: 2.1px solid transparent;
+      opacity: 0.86;
+      margin-bottom: 2px;
+      letter-spacing: 0.02em;
+    }
+    .tab-btn.selected {
+      border-color: #fff;
+      transform: scale(1.06);
+      opacity: 1;
+      box-shadow: 0 0 0 3px rgba(0,0,0,0.07);
+    }
+    .section {
+      margin-bottom: 23px;
+    }
+    .section-title {
+      font-size: 1.19rem;
+      font-weight: 600;
+      margin-bottom: 7px;
+      margin-top: 18px;
+      color: inherit;
+    }
+    .element-header {
+      font-size: 1.55rem;
+      font-weight: 700;
+      margin-bottom: 7px;
+      letter-spacing: 0.01em;
+      color: inherit;
+    }
+    ul {
+      padding-left: 24px;
+      margin: 7px 0;
+    }
+    li {
+      margin-bottom: 2px;
+    }
+    .card {
+      background: #f8f7f5;
+      border-radius: 19px;
+      box-shadow: 0 2px 18px rgba(90,80,50,0.07);
+      border-top: 8px solid;
+      padding: 24px 22px 17px 22px;
+      margin-bottom: 17px;
+      color: #222;
+    }
+    .faq-section ul { padding-left: 19px; }
+    @media (max-width: 820px) {
+      .container {padding:10px 2vw;}
+      h1 {font-size:1.45rem;}
+      .tabs {gap:7px;}
+      .tab-btn {font-size: 1.01rem; padding: 9px 10px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Pentacle of Inquiry (PIE) Dashboard</h1>
+    <div class="tabs" id="tabs"></div>
+    <div id="content"></div>
+  </div>
+  <script>
+    // Palette - six distinct, balanced colors (Nordic/Farrow & Ball)
+    const tabColors = [
+      "rgb(61, 78, 87)",     // AIR: Serge
+      "rgb(197, 143, 134)",  // WATER: Potted Shrimp
+      "rgb(158, 66, 47)",    // FIRE: Terre D’Egypte
+      "rgb(154, 160, 114)",  // EARTH: Saxon Green
+      "rgb(106, 144, 180)",  // SPIRIT: Chinese Blue
+      "rgb(203, 158, 89)",   // SPACE: India Yellow
+      "rgb(109, 95, 80)"     // TIPS/FAQ: Pantalon (optional)
+    ];
+
+    // Content for each element, extracted and condensed from the PDF (no emojis)
+    const elements = [
+      {
+        key: "AIR", title: "AIR",
+        header: "Intellect & Inquiry",
+        description: "AIR focuses on abstract reasoning, analytical breakdown, and the Socratic method. It dissects ideas with recursive, thought-driven questioning and pure reasoning, aiming for intellectual deconstruction and layered analysis.",
+        techniques: [
+          "Socratic Method, Thought Experiments",
+          "Compare/Contrast, Analytical Triggers (Explain, Define, List)",
+          "Occam’s Razor for simplification",
+          "Deconstruction of assumptions",
+          "Contrast of perspectives",
+          "Linguistic framing analysis"
+        ],
+        directives: [
+          { directive: "Ask Layered Questions", example: 'Begin by asking: What is this? Then, ask: What is beneath that? Continue questioning recursively until the idea breaks open.' },
+          { directive: "Use the Socratic Method", example: 'Write a dialogue where each response demands a deeper question. The conversation never ends—it only expands.' },
+          { directive: "Contrast Perspectives", example: 'Describe an object from two opposing viewpoints. What do they reveal? What contradictions emerge?' },
+          { directive: "Deconstruct Assumptions", example: 'Take a commonly accepted truth and break it down: What assumptions underlie this truth? What happens if one assumption is removed?' },
+          { directive: "Analyze Linguistic Framing", example: 'Examine the language being used to describe an event. How does the phrasing shape perception? What happens when the same event is reworded through another intellectual framework?' },
+          { directive: "Employ Thought Experiments", example: 'What if the fundamental premises of this idea were reversed? Explore the consequences as if they were true.' },
+          { directive: "Apply Occam’s Razor", example: 'Consider multiple explanations for a complex event. Strip them down to the simplest one that accounts for all the available evidence.' },
+          { directive: "Explore Logical Contradictions", example: 'Find a belief or system that contradicts itself under scrutiny. Where does it break down? What hidden conflicts emerge?' }
+        ],
+        refinements: [
+          "Deconstruct assumptions and hidden premises.",
+          "Analyze how language constructs meaning.",
+          "Expose logical contradictions and breaking points.",
+          "Emphasize expansion and recursion over summary."
+        ]
+      },
+      {
+        key: "WATER", title: "WATER",
+        header: "Emotion & Depth",
+        description: "WATER invites exploration of sensory details, emotional nuances, and psychological immersion. It uses poetic language, 'show, don’t tell,' and cyclical emotional layering to create atmosphere and depth.",
+        techniques: [
+          "Show, Don’t Tell",
+          "Poetic Language",
+          "Stream-of-Consciousness",
+          "Describe in Extreme Detail",
+          "Layer emotional experiences through time"
+        ],
+        directives: [
+          { directive: "Describe Emotion Through Sensory Immersion", example: "Describe a moment of emotional intensity without naming the emotion itself. Use sensory details, physical reactions, and environmental cues to immerse the reader in its weight." },
+          { directive: "Trace Emotional Ripples Through Memory", example: "How does a past event continue to ripple in the subconscious? Trace its echoes through memories, habits, and unspoken tensions." },
+          { directive: "Use Poetic Language to Sustain Emotional Atmosphere", example: "Describe a setting that mirrors an internal emotional state. How does the environment reflect what is unspoken?" },
+          { directive: "Apply Stream-of-Consciousness for Emotional Flow", example: "Follow the path of an emotion as it moves through the body. What physical sensations accompany it? How does it evolve from moment to moment?" },
+          { directive: "Explore Emotional Contradictions", example: "Write about a character experiencing two conflicting emotions simultaneously. How do these forces push and pull against each other?" },
+          { directive: "Reveal the Subtext of a Dialogue", example: "Write a conversation where the true emotions are never directly stated, only implied through pauses, body language, and word choice." },
+          { directive: "Layer Emotional Depth Over Time", example: "Describe an emotion as it is first felt, then revisit it after a day, a year, a decade. How does time shape and distort its weight?" },
+          { directive: "Map Emotional Evolution Through Repetition", example: "Write about an emotional experience that repeats in cycles. Each time it returns, how does its impact change?" }
+        ],
+        refinements: [
+          "Sustain emotional contradictions and subtext.",
+          "Layer emotions recursively over time.",
+          "Use poetic and immersive framing."
+        ]
+      },
+      {
+        key: "FIRE", title: "FIRE",
+        header: "Action & Instinct",
+        description: "FIRE drives tension, movement, and escalation. It uses paradox, reductio ad absurdum, and action chains to push ideas to breaking points, challenge beliefs, and explore the cost of action/inaction.",
+        techniques: [
+          "Reductio ad Absurdum",
+          "Lateral Thinking, Embrace Paradox",
+          "Escalate Tension, Generate Contradictions",
+          "Action chain reactions, Instinct vs. Reason"
+        ],
+        directives: [
+          { directive: "Force an Impossible Decision", example: "Force a decision with no right answer. What underlying pressures make the choice impossible? How does the weight of an action reveal hidden instincts?" },
+          { directive: "Escalate Conflict in Layers", example: "Begin with a small disagreement. How does it spiral? What hidden tensions surface as it grows? Continue escalating until it reaches a breaking point." },
+          { directive: "Push a Belief to Its Breaking Point", example: "Take a common belief and push it to its extreme logical conclusion until it contradicts itself. Where does it break? Why?" },
+          { directive: "Describe the Moment Before Action", example: "A character is about to act, but hesitation lingers. What mental and physical tensions build in this moment? Stretch this anticipation without release." },
+          { directive: "Create an Action Chain Reaction", example: "Describe a single action that sets off a chain of consequences. How does one decision ripple outward, affecting others in ways unseen at first?" },
+          { directive: "Use Reductio ad Absurdum to Unravel an Idea", example: "Choose a widely accepted principle and assume the opposite. Follow this alternate reality to its extreme. What absurdities emerge? What truths are revealed in contrast?" },
+          { directive: "Frame Action as Instinct vs. Rational Thought", example: "Describe an action taken purely on instinct. Now, describe the same action with rational thought behind it. What changes? What remains the same?" },
+          { directive: "Explore the Cost of Inaction", example: "Describe a moment where doing nothing is more destructive than taking action. How does inaction create pressure? What unseen consequences emerge?" },
+          { directive: "Generate Contradictions in Motivation", example: "Write about a character who deeply desires something but actively sabotages their chance to achieve it. What conflicting forces drive this behavior?" }
+        ],
+        refinements: [
+          "Escalate conflict and sustain momentum.",
+          "Explore contradiction and hidden motives.",
+          "Push decisions, actions, and consequences."
+        ]
+      },
+      {
+        key: "EARTH", title: "EARTH",
+        header: "Material & Forensic Inquiry",
+        description: "EARTH grounds ideas in physical reality, evidence, and tangible details. It employs forensic-level scrutiny, scientific perspective, and material history to reconstruct, compare, and analyze scenes, objects, and causes.",
+        techniques: [
+          "Forensic-Level Scrutiny",
+          "Scientific Perspective",
+          "Constraint-Based Description",
+          "Reconstruction from Physical Evidence",
+          "Perception vs. Objectivity"
+        ],
+        directives: [
+          { directive: "Describe an Object as Forensic Evidence", example: "Describe an object as if it were forensic evidence. What does its texture, wear, and placement reveal? What stories are embedded in its form?" },
+          { directive: "Analyze an Environment Through Its Absences", example: "Examine an environment, not for what is present, but for what is missing. What absences shape the space?" },
+          { directive: "Trace the Wear and Decay of a Physical Object Over Time", example: "Describe an object as it changes over a day, a year, a century. How does material age alter its meaning and function?" },
+          { directive: "Conduct a Scientific Breakdown of a Scene", example: "Describe a moment through the lens of physics, chemistry, or biology. What forces are acting upon the subject? How do natural laws shape its existence?" },
+          { directive: "Compare Perception vs. Measurable Reality", example: "Describe the same place twice—first through human perception (memory, emotion), then through purely objective, measurable data. How does the meaning of the place shift?" },
+          { directive: "Force a Constraint-Based Description", example: "Describe a complex scene using only quantifiable details—weight, size, shape, temperature, texture—without metaphor or emotional inference." },
+          { directive: "Reconstruct an Event From Physical Clues", example: "A scene has been left behind. Examine the traces: what happened here before you arrived? Reconstruct the event from objects, positioning, and material changes." },
+          { directive: "Explore Cause & Effect Through Physical Evidence", example: "Take a single physical detail (a footprint, a crack in glass, a stain on fabric). How did it come to be? What unseen forces, actions, or mistakes led to its existence?" },
+          { directive: "Describe the Material Origin of an Object", example: "Choose an object and trace its existence backward—where was it made, from what raw materials, and what hands shaped it? How far back can you follow its history?" }
+        ],
+        refinements: [
+          "Anchor in forensic and scientific details.",
+          "Layer material change and objective facts.",
+          "Reconstruct, compare, and analyze evidence."
+        ]
+      },
+      {
+        key: "SPIRIT", title: "SPIRIT",
+        header: "Synthesis & Meta-Reflection",
+        description: "SPIRIT integrates, synthesizes, and reframes all layers. It uses meta-prompting, chiastic structure, and paradox to unify perspectives, encourage recursion, and challenge the act of perception itself.",
+        techniques: [
+          "Meta-Prompting, Chiastic Structure",
+          "Philosophical Reflection",
+          "Abstract/Lateral Thinking",
+          "Paradox & Recursion",
+          "Perspective Shifting"
+        ],
+        directives: [
+          { directive: "Explore Perception of Perception", example: "Write about a moment where the observer becomes aware of their own act of perception. How does this shift the experience?" },
+          { directive: "Mirror the Beginning and End of a Narrative", example: "Craft a passage where the first and last lines mirror each other but reveal different meanings upon re-reading. How does context transform identical words?" },
+          { directive: "Create a Paradox That Cannot Be Resolved", example: "Write about a situation that is both true and false at the same time. Do not resolve the contradiction—let both realities coexist." },
+          { directive: "Use Chiastic Structure for Reflection", example: "Write a short scene where the second half is a mirror image of the first, but the meaning has shifted subtly. What changes?" },
+          { directive: "Explore the Layers of a Single Thought", example: "Take a single thought and break it apart—what emotions, assumptions, memories, and external influences shape it? Keep unfolding deeper layers." },
+          { directive: "Describe the Observer as Part of the Observed", example: "Write a scene where the narrator realizes they are shaping the reality they describe. How does their awareness change what they see?" },
+          { directive: "Reinterpret the Same Event from Different Frameworks", example: "Describe a single event through the lens of philosophy, science, and mythology. How does meaning shift?" },
+          { directive: "Use Meta-Prompting for Recursive Awareness", example: "Write a passage that acknowledges its own existence. How does the act of being written alter the meaning of the words?" },
+          { directive: "Explore Interconnection Between All Elements", example: "Describe an object, a memory, and a dream as if they were all part of the same thing—different facets of a unified whole. What links them?" },
+          { directive: "Describe Something That Cannot Be Named", example: "Capture the essence of a feeling, experience, or truth that has no direct word. Use indirect description, metaphor, and resonance to define what defies definition." }
+        ],
+        refinements: [
+          "Sustain paradox and recursion.",
+          "Integrate and reflect on all layers.",
+          "Unify, reframe, and abstract connections."
+        ]
+      },
+      {
+        key: "SPACE", title: "SPACE",
+        header: "Expansion & Possibility",
+        description: "SPACE is conceptual expansion, possibility, and uncharted thinking. It uses recursive questioning, negative space, counterfactuals, and speculative expansion to force new modes of thought and embrace paradox.",
+        techniques: [
+          "Recursive Expansion, Open-Ended Inquiry",
+          "Negative Space Thinking",
+          "Speculative Extrapolation",
+          "Perspective Beyond the Human",
+          "Conceptual Mutation"
+        ],
+        directives: [
+          { directive: "Give Physical Form to an Abstract Concept", example: "Describe a concept as if it had a physical form. What shape does an untapped possibility take? How does potential behave when given weight and texture?" },
+          { directive: "Break Free from Linear Time", example: "Step outside of conventional space-time. Describe a moment that exists outside of linear cause and effect. What new relationships emerge?" },
+          { directive: "Expand Without Boundaries", example: "Each sentence should reveal a new layer of the idea—one that was previously hidden or unconsidered. Continue this process until the structure of the thought itself becomes unfamiliar." },
+          { directive: "Speculate on the Impossible", example: "Describe a world where a fundamental rule is different (e.g., gravity repels, time flows backward). How do characters, objects, and stories adapt?" },
+          { directive: "Explore Negative Space in Narrative", example: "What isn’t present in a scene? How does absence shape what remains? Use silence, pause, and blank space to create meaning." },
+          { directive: "Transcend the Human Perspective", example: "Describe an event from the viewpoint of something non-human (an object, a process, a collective). What can be seen only from this perspective?" },
+          { directive: "Provoke Mutation in Ideas", example: "Start with a familiar concept. Change one fundamental aspect. How does everything else shift in response? Repeat recursively." },
+          { directive: "Embrace the Paradox of Infinite Choice", example: "Write about a character overwhelmed by limitless possibilities. How does the weight of endless choice affect action, meaning, or paralysis?" }
+        ],
+        refinements: [
+          "Expand beyond given frames.",
+          "Speculate, mutate, and abstract possibilities.",
+          "Emphasize negative space and perspective shift."
+        ]
+      },
+      // Optional Tips/FAQ tab will be auto-added if space
+    ];
+
+    // Optional: Tips & FAQ (add if space allows)
+    const tipsFaq = {
+      key: "TIPSFAQ", title: "Tips & FAQ",
+      header: "Tips, FAQ, and Hacks",
+      description: "Frequently asked questions and creative hacks for working with the Pentacle of Inquiry framework.",
+      faqs: [
+        { q: "How do I combine elements in practice?", a: "Try sequencing prompts: begin with AIR (analysis), layer with WATER (emotion), escalate with FIRE (action), then ground in EARTH (material detail). Synthesize with SPIRIT and expand with SPACE." },
+        { q: "Can I use more than one element at a time?", a: "Yes. The richest results come from combining elements. For example, ask an AIR question, answer it with EARTH, then reflect using SPIRIT." },
+        { q: "How do I use this with AI or LLMs?", a: "Give clear, element-based instructions (e.g., 'Analyze with AIR,' 'Describe with WATER') or chain them ('First AIR, then EARTH, then SPIRIT')." },
+        { q: "What’s the best way to start?", a: "Pick one element and try several directives. Notice which open up new directions or create productive friction. Switch elements if you get stuck." },
+        { q: "Any quick hacks?", a: "Yes! 1) Use contrast—start with AIR, flip to WATER. 2) Push FIRE to escalate a scenario, then switch to EARTH for forensic analysis. 3) Let SPIRIT reframe your approach, or SPACE expand the possible outcomes." }
+      ],
+      hacks: [
+        "Chain elements in a single prompt for richer results.",
+        "Switch elements if stuck—don't force one mode.",
+        "Contrast AIR vs. WATER or FIRE vs. EARTH for breakthroughs.",
+        "Let SPIRIT and SPACE reframe or expand dead ends.",
+        "Use the framework recursively for meta-analysis."
+      ]
+    };
+
+    // Tab names and palette
+    const tabNames = elements.map(e => e.title).concat("Tips & FAQ");
+    const tabData = elements.concat([tipsFaq]);
+
+    // DOM
+    const tabsDiv = document.getElementById('tabs');
+    const contentDiv = document.getElementById('content');
+    let currentTab = 0; // default to AIR
+
+    function renderTabs() {
+      tabsDiv.innerHTML = '';
+      tabNames.forEach((t, i) => {
+        // Only show Tips/FAQ if it's the last tab (if space allows)
+        if (i === elements.length && tabData.length > elements.length + 1) return;
+        const btn = document.createElement('button');
+        btn.textContent = t;
+        btn.className = 'tab-btn' + (i === currentTab ? ' selected' : '');
+        btn.style.background = tabColors[i] || tabColors[0];
+        btn.onclick = () => {
+          currentTab = i;
+          renderTabs();
+          renderContent();
+        };
+        tabsDiv.appendChild(btn);
+      });
+    }
+
+    function renderContent() {
+      contentDiv.innerHTML = '';
+      const t = tabData[currentTab];
+
+      // Main element card
+      if (currentTab < elements.length) {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.style.borderTopColor = tabColors[currentTab];
+        card.style.color = '#222';
+        card.innerHTML = `
+          <div class="element-header" style="color:${tabColors[currentTab]}">${t.header}</div>
+          <div class="section section-title" style="color:${tabColors[currentTab]}">Description</div>
+          <div class="section">${t.description}</div>
+
+          <div class="section section-title" style="color:${tabColors[currentTab]}">Reasoning & Techniques</div>
+          <ul>${t.techniques.map(tech => `<li>${tech}</li>`).join('')}</ul>
+
+          <div class="section section-title" style="color:${tabColors[currentTab]}">Directives & Sample Prompts</div>
+          <ul>${t.directives.map(d => `<li><strong>${d.directive}:</strong> <em>${d.example}</em></li>`).join('')}</ul>
+
+          <div class="section section-title" style="color:${tabColors[currentTab]}">Refinements</div>
+          <ul>${t.refinements.map(r => `<li>${r}</li>`).join('')}</ul>
+        `;
+        contentDiv.appendChild(card);
+      }
+      // Tips/FAQ card
+      else if (t.key === "TIPSFAQ") {
+        const faqCard = document.createElement('div');
+        faqCard.className = 'card faq-section';
+        faqCard.style.borderTopColor = tabColors[tabColors.length-1];
+        faqCard.innerHTML = `
+          <div class="element-header" style="color:${tabColors[tabColors.length-1]}">${t.header}</div>
+          <div class="section section-title" style="color:${tabColors[tabColors.length-1]}">Quick Hacks</div>
+          <ul>${t.hacks.map(h => `<li>${h}</li>`).join('')}</ul>
+          <div class="section section-title" style="color:${tabColors[tabColors.length-1]}">FAQs</div>
+          <ul>
+            ${t.faqs.map(f => `<li><strong>${f.q}</strong><br>${f.a}</li>`).join('')}
+          </ul>
+        `;
+        contentDiv.appendChild(faqCard);
+      }
+    }
+
+    // Only include FAQ tab if total tabs < 9 (for space, UI)
+    if (elements.length < 8) tabData.push(tipsFaq);
+
+    renderTabs();
+    renderContent();
+  </script>
+</body>
+</html>
