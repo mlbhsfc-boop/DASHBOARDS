@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Writing Styles Reference Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Farrow & Ball 14 accent palette for tabs */
+      --fb7: rgb(77, 91, 106);
+      --fb8: rgb(61, 78, 87);
+      --fb9: rgb(154, 160, 114);
+      --fb10: rgb(47, 87, 44);
+      --fb11: rgb(109, 95, 80);
+      --fb12: rgb(133, 80, 71);
+      --fb13: rgb(197, 143, 134);
+      --fb14: rgb(139, 157, 155);
+      --fb15: rgb(54, 94, 80);
+      --fb16: rgb(36, 57, 49);
+      --fb17: rgb(191, 65, 48);
+      --fb20: rgb(203, 158, 89);
+      --fb21: rgb(158, 66, 47);
+      --fb24: rgb(106, 144, 180);
+      --fb2: rgb(230, 223, 209);
+    }
+    body {
+      background: var(--fb2);
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #231F20;
+    }
+    .container {
+      max-width: 1050px;
+      margin: 36px auto 30px auto;
+      background: #fff;
+      border-radius: 26px;
+      box-shadow: 0 4px 36px rgba(60,50,30,0.13);
+      padding: 38px 24px 30px 24px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.15rem;
+      letter-spacing: -1px;
+      margin-bottom: 36px;
+      font-weight: 700;
+    }
+    .tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-template-rows: repeat(2, 1fr);
+      gap: 13px 15px;
+      justify-items: center;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 12px 4px;
+      border-radius: 15px;
+      font-size: 0.99rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #888;
+      transition: transform 0.09s, box-shadow 0.13s, opacity 0.11s;
+      border: 2.2px solid transparent;
+      opacity: 0.93;
+      width: 98%;
+      min-width: 0;
+      max-width: 164px;
+      margin: 0;
+      white-space: pre-line;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 10px 0 rgba(70,60,40,0.07);
+    }
+    .tab-btn.selected {
+      border-color: #fff;
+      transform: scale(1.055);
+      opacity: 1;
+      box-shadow: 0 0 0 3.5px rgba(0,0,0,0.08);
+      z-index: 1;
+    }
+    .style-card {
+      background: #f8f7f5;
+      border-radius: 20px;
+      box-shadow: 0 2px 18px rgba(90,80,50,0.06);
+      border-top: 8px solid;
+      padding: 28px 22px 19px 22px;
+      margin-bottom: 17px;
+      color: #232325;
+      margin-top: 4px;
+      position: relative;
+    }
+    .style-header {
+      font-size: 1.42rem;
+      font-weight: 700;
+      margin-bottom: 9px;
+      color: inherit;
+      letter-spacing: 0.01em;
+    }
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      margin-top: 16px;
+      margin-bottom: 7px;
+    }
+    .section-title {
+      font-size: 1.14rem;
+      font-weight: 600;
+      color: inherit;
+      margin: 0;
+      padding: 0;
+      flex: 0 0 auto;
+    }
+    .copy-btn {
+      margin-left: 12px;
+      background: #f5f0e5;
+      border: 1.6px solid #c8c1b7;
+      border-radius: 8px;
+      padding: 5.5px 13px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #3a392e;
+      cursor: pointer;
+      opacity: 0.74;
+      transition: background 0.1s, opacity 0.1s;
+      z-index: 2;
+    }
+    .copy-btn:hover {
+      background: #e6decc;
+      opacity: 1;
+    }
+    .copied-alert {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 0.98rem;
+      color: #59a047;
+      font-weight: 500;
+      vertical-align: middle;
+      background: #f4ffee;
+      border-radius: 7px;
+      padding: 2px 7px;
+      opacity: 0.93;
+    }
+    ul, .fit-scenes-list {
+      padding-left: 22px;
+      margin: 6px 0 11px 0;
+    }
+    li {
+      margin-bottom: 2px;
+    }
+    .sample-block {
+      font-style: italic;
+      margin-top: 5px;
+      color: #4a4848;
+    }
+    @media (max-width: 1200px) {
+      .container { max-width: 98vw; }
+      .tabs-grid { gap: 9px 7px;}
+      .tab-btn {max-width: 128px; font-size:0.94rem;}
+    }
+    @media (max-width: 900px) {
+      .tabs-grid { grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(4, 1fr);}
+      .tab-btn {max-width: 99vw;}
+    }
+    @media (max-width: 650px) {
+      .tabs-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(7, 1fr);}
+      .tab-btn { font-size:0.89rem;}
+    }
+    @media (max-width: 410px) {
+      .tab-btn { font-size:0.86rem; padding:8px 2px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Writing Styles Reference Dashboard</h1>
+    <div class="tabs-grid" id="tabs"></div>
+    <div id="content"></div>
+  </div>
+  <script>
+    // Style headers (tab codes/names) and full content
+    const styles = [
+      {
+        code: "WS.IR",
+        name: "Intimate Reflective",
+        tagline: "Thoughtful presence, without urgency.",
+        summary: "Grounded and philosophically aware narration that balances emotional realism with quiet connection.",
+        core: `Intimate Reflective focuses on philosophical presence and grounded emotionality. Tone is calm, thoughtful, and observant. Phrasing is clean and unrushed, favoring clarity over flourish. Lexicon uses specific but understated words, avoiding both poetic excess and clinical detachment. Syntax leans into natural sentence flow, avoiding fragmentation and overt stylistic signaling. Narrative structure privileges small, meaningful emotional turns and quiet interpersonal moments. Dialogue is honest and measured, aiming for relational clarity. Perspective is close and steady, with restrained emotional exposure. Themes include relational understanding, acceptance of ambiguity, and subtle emotional negotiation. Formal quirks include mild philosophical inflection and reliance on character-driven interiority.`,
+        bestFit: [
+          "Philosophical dialogue",
+          "Quiet relational realizations",
+          "Subtle emotional turns"
+        ],
+        sample: `The card lay on the table between them. Bart looked at it, not just with his eyes but with his whole body. His shoulders tensed slightly. The colorful cups on the card seemed to swim before him, each one containing a different illusion. His index finger found the edge of the coffee table, following its contour. "Yeah. I do wallow," he said quietly. "I fill my days with work, with thoughts and ideas, people. Anything that makes me feel busy, like I'm doing something. But maybe it's just noise."`
+      },
+      {
+        code: "WS.CD",
+        name: "Cool Detached",
+        tagline: "Observing the temperature from a distance.",
+        summary: "Stylistically sparse and socially attuned narration that uses emotional buffering and cultural sharpness to create layered ambiguity.",
+        core: `Cool Detached embraces stylish minimalism and intellectual distance. Tone is observational, buffered, and culturally aware. Phrasing is tight, clean, and neutral in emotional inflection. Lexicon avoids poeticism and favors socially precise, tonally dry language. Syntax is straightforward, favoring declarative sentences and strategic understatement. Narrative structure prioritizes situational and relational ambiguity, often avoiding overt emotional articulation. Dialogue is sparse, sharp, and contextually coded. Perspective is close but emotionally removed, privileging intellectual over visceral reaction. Themes include alienation, social observation, and relational ambiguity. Formal quirks include restrained figurative language, strategic silences, and avoidance of overt narrative resolution.`,
+        bestFit: [
+          "Modern alienation",
+          "Emotionally distant relationships",
+          "Observational social critique"
+        ],
+        sample: `Bart observes the tarot card with clinical detachment that fails to mask his discomfort. His fingers move methodically along the coffee table's edge, a practiced gesture that serves its psychological purpose. "Yeah. I do wallow." He pauses, reconfiguring his approach. "I fill my days with work, with thoughts and ideas, people, anything that makes me feel busy. But maybe it's just noise."`
+      },
+      {
+        code: "WS.CH",
+        name: "Confessional High-Impact",
+        tagline: "Heart on sleeve, voice on blast.",
+        summary: "Candid, emotionally direct narration shaped by pop-cultural fluency and performative vulnerability.",
+        core: `Confessional High-Impact prioritizes emotional immediacy and cultural relevance. Tone is candid, sharp, and often self-aware. Phrasing is fast-paced, punchy, and rhetorically charged. Lexicon draws heavily from contemporary speech and pop-cultural shorthand. Syntax favors simple structures, abrupt transitions, and rhetorical devices such as questions and emphasis. Narrative structure is driven by dramatic beats and real-time processing. Dialogue is bold, highly personal, and frequently performative. Perspective is first-person and emotionally saturated, often exposing internal contradictions. Themes include identity, relational volatility, and emotional justice. Formal quirks include direct address, heavy use of cultural references, and punchy paragraphing.`,
+        bestFit: [
+          "Breakups",
+          "Arguments",
+          "Identity crises",
+          "Direct emotional confessions"
+        ],
+        sample: `The card stares back at me like it knows everything. Seven cups floating in a stupid cloud, and I'm literally shaking. "Wallow." That word hits different when someone else says it. "Yeah. I do wallow." The truth tastes metallic, like blood. I fill my days with work, with thoughts and ideas, people—anything to feel busy, like I'm doing something. But maybe it's just noise.`
+      },
+      {
+        code: "WS.AI",
+        name: "Aesthetic Interiorist",
+        tagline: "Atmosphere at a simmer, feeling in the walls.",
+        summary: "Sensory-driven narration that withholds emotional declaration, weaving ambient tension through precise detail and embodied presence.",
+        core: `Aesthetic Interiorist balances intellectual insight with emotional accessibility by immersing the reader in a world of sensory observation and atmospheric undertow. The narrative voice is that of an attentive witness—intimate but never intrusive—who builds meaning through what is noticed, not stated. Prose is marked by restraint and precision: emotion is felt through the play of light on a wall, the angle of a wrist, the quality of silence in a room. Lexicon is literary when needed for nuance, but always in service of concrete, physical detail. Syntax favors long, fluid sentences interspersed with sharp fragments for introspective impact. The structure of each paragraph leads from concrete sensory anchor to subtle internal revelation, with tension accumulated in the unsaid. Dialogue is spare, laden with implication, and intertwined with gesture and space. Perspective hovers close, maintaining a measured distance while dipping into interiority only as it manifests through body and environment. Themes orbit around intimacy, perception, and relational shifts, with emotional currents tracked through spatial dynamics and physical touch. Formal quirks include strict avoidance of em-dashes, heavy use of sensory motifs, and building tension through omission.`,
+        bestFit: [
+          "Quiet domestic moments loaded with unspoken emotion",
+          "Tense encounters where meaning pools in gesture, posture, and environmental shifts",
+          "Internal realizations triggered by sensory detail"
+        ],
+        sample: `The afternoon light falls across the card, catching the seven illustrated cups with their mysterious contents. Bart feels the image bore into him, not unlike a physical pressure. His fingertips find the coffee table’s edge, moving in small, methodical patterns against the cool wood—a ritual of anchoring when words threaten to unmoor. "Wallow," he murmurs. "Yeah. I do wallow." The confession warms the space between them, changes its quality like weather shifting.`
+      },
+      {
+        code: "WS.LR",
+        name: "Lyrical Reflective",
+        tagline: "Sensory detail as emotional language.",
+        summary: "Poetic and immersive narration that weaves emotional depth and subtle romanticism through texture and graceful observation.",
+        core: `Lyrical Reflective centers on emotionally rich and sensory-oriented narration. Tone is poetic and immersive, offering layers of meaning through subtle inflection. Phrasing often leans toward longer, flowing sentences interspersed with vivid details. Lexicon favors evocative language, concrete nouns, and emotionally suggestive adjectives. Syntax balances poetic complexity with readability, often employing subordination for nuance. Narrative structure prioritizes atmospheric immersion and internal emotional landscapes. Dialogue is graceful and deliberate, supporting mood rather than overt conflict. Perspective is intimate and reflective, with occasional philosophical or associative drift. Themes include romanticism, quiet longing, and poetic introspection. Formal quirks include gentle repetition, rhythmic prose, and elegant image crafting.`,
+        bestFit: [
+          "Poetic introspection",
+          "Sensual moments",
+          "Nature or atmosphere-laden settings"
+        ],
+        sample: `The card reveals itself between them like a small mirror—seven chalices suspended in painted cloud. Bart feels the imagery enter him not through his eyes but through some more porous boundary, the way light enters a house through forgotten windows. His fingers find the coffee table’s edge, tracing elliptical patterns in the wood. "Wallow..." The word emerges as breath given form. "Yeah. I do wallow." His admission joins the word, two boats now drifting on the same current.`
+      },
+      {
+        code: "WS.OI",
+        name: "Offbeat Intimate",
+        tagline: "Awkward charm, sidelong truths.",
+        summary: "Relationally quirky and emotionally suggestive narration that balances humor, warmth, and human imperfection.",
+        core: `Offbeat Intimate is marked by relational oddness and gentle subversion. Tone is casual, self-aware, and charmingly awkward. Phrasing is conversational, indirect, and often laced with soft humor. Lexicon privileges concrete relational terms, idiosyncratic phrasing, and slightly skewed metaphors. Syntax favors short to medium sentences with occasional looping and run-ons to reflect internal hesitation. Narrative structure emphasizes small human moments and relational quirks. Dialogue is intimate, often self-deprecating or teasing, and lightly coded. Perspective is close, personal, and emotionally suggestive. Themes include human imperfection, relational playfulness, and emerging intimacy. Formal quirks include indirect emotional statements, observational humor, and casual voice.`,
+        bestFit: [
+          "First dates",
+          "Awkward social exchanges",
+          "Emerging relational quirks"
+        ],
+        sample: `Bart can't stop staring at the stupid card. It's just paper with pictures, right? Except somehow it's also this thing with teeth, gnawing at the carefully constructed walls he's spent years building—which sounds melodramatic, but still. His fingers do this nervous little dance along the coffee table edge. "Wallow..." he says, as if testing whether it sounds less damning out loud. It doesn't.`
+      },
+      {
+        code: "WS.RS",
+        name: "Romantic Suspense",
+        tagline: "Heat beneath control.",
+        summary: "Emotionally taut and dramatic narration that amplifies attraction, relational stakes, and simmering tension.",
+        core: `Romantic Suspense emphasizes emotional intensity and relational stakes. Tone is charged and suggestive, foregrounding desire and subtle power plays. Phrasing is tight and rhythmic, designed to create a sense of build-up and release. Lexicon favors charged and tactile vocabulary, leaning into physical and relational descriptors. Syntax tends toward balanced but urgent sentence constructions. Narrative structure is designed around simmering tension and relational push-pull. Dialogue is direct yet layered, often flirtatious or loaded. Perspective is close and emotionally alive, capturing subtle shifts in mood and chemistry. Themes include relational tension, attraction, and emotional risk. Formal quirks include deliberate pacing, withholding resolution, and emphasizing power dynamics.`,
+        bestFit: [
+          "Sexually charged exchanges",
+          "High-stakes relational conflict",
+          "Intimate betrayals"
+        ],
+        sample: `The golden afternoon light caught the edge of the tarot card, making its colors glow. Bart couldn't tear his eyes away from the Seven of Cups, feeling the imagery pierce through his defenses. With deliberate movements that betrayed his inner turmoil, he traced a pattern along the polished edge of the coffee table. "Wallow..." he whispered, meeting Tadeo's gaze for the briefest moment. "Yeah. I do wallow."`
+      },
+      {
+        code: "WS.SI",
+        name: "Sensual Intensity",
+        tagline: "Skin raw, nerves singing.",
+        summary: "Fearless, fragmented narration that fuses bodily sensation with psychological rupture, immersing the reader in destabilizing, transgressive intimacy.",
+        core: `Sensual Intensity propels the reader into a world where sensation overwhelms, boundaries blur, and emotion destabilizes. The prose rejects sanitized narrative in favor of raw contradiction and physical immediacy, confronting the reader with unnerving closeness and taboo moments. Language is visceral, literary only when it delivers an immediate hit to the senses or psyche. Syntax fractures and layers—long, immersive lines dissolve into staccato fragments and run-ons, mirroring psychological disarray. Paragraphs spiral from concrete physical anchor to breaking point or perceptual shift, punctuated by abrupt or dreamlike transitions. Perspective dives into extreme interiority, collapsing the distance between reader and character, often rendering memory, perception, and hallucination indistinguishable. Dialogue is minimal but electrified, blending seamlessly with bodily reaction and interior monologue. Themes inhabit the body: want and fear, pleasure and pain, transgression and contradiction—all made palpable through physical detail and emotional collision. Formal quirks include strict avoidance of em-dashes, surreal but grounded sensory motifs, and relentless focus on the body as the site of emotional truth.`,
+        bestFit: [
+          "Sex, hunger, bodily pain, or any moment of overpowering sensation",
+          "Psychological crises or breakdowns rendered through the body",
+          "Encounters with taboo, shame, or desire where the body betrays the mind",
+          "Scenes where reality feels unstable, time slips, and emotional contradictions surface through sensory overload"
+        ],
+        sample: `The card's glossy surface catches light, reflects it back in subtle patterns that dig beneath Bart's skin. Not just his eyes absorbing the image—his entire body receiving it, the seven cups tunneling into his chest. His body responds before his mind—fingers seeking the coffee table edge. "Wallow..." The word leaves his mouth as vapor, barely disturbing the air.`
+      },
+      {
+        code: "WS.RC",
+        name: "Redemptive Clarity",
+        tagline: "Light through fracture, meaning through struggle.",
+        summary: "Analytically precise and emotionally sincere narration that pursues clarity and connection, always guiding the reader toward insight and redemption.",
+        core: `Redemptive Clarity joins intellectual rigor with heartfelt sincerity, maintaining a steady pursuit of meaning through even the most challenging terrain. The prose is clear, accessible, and often gently poetic, balancing logical structure with emotional presence. The voice is that of a thoughtful companion—reliable, candid, and sometimes vulnerably self-revealing—who leads the reader through complexity without abandoning hope of understanding or growth. Sentences are well-balanced and measured; complexity deepens the subject, never clouds it. Paragraphs layer logic and feeling, moving from accessible entry points to more nuanced insights while maintaining a forward, purposeful momentum. Perspective remains trustworthy and composed, with moments of deeper intimacy that never undermine coherence. Dialogue is substantive, fostering both character development and thematic exploration, always clear and revealing. Themes are developed with care: moral ambiguity is acknowledged but ultimately reconciled within a redemptive frame; pain and joy are earned and purposeful. Formal quirks include an absolute ban on em-dashes, careful transitions, and the prioritization of clarity over novelty. Resolution is real, but not simplistic—difficulties and contradictions are faced, but always as part of a movement toward greater understanding and connection.`,
+        bestFit: [
+          "Characters confronting past mistakes and seeking understanding or forgiveness",
+          "Intimate, difficult conversations that move toward honesty and reconciliation",
+          "Narratives where emotional struggle is paired with intellectual questioning",
+          "Thematic explorations of hope, meaning, and growth in the aftermath of loss or conflict"
+        ],
+        sample: `Bart studied the card before him, its imagery stirring something profound beneath his carefully maintained composure. The Seven of Cups seemed to speak directly to him, naming a truth he'd long suspected but never fully acknowledged. His fingers found the edge of the coffee table, tracing its contours with deliberate focus. "Wallow..." The word emerged quietly, almost reverently. "Yeah. I do wallow," he admitted, his voice strengthening with each word.`
+      },
+      {
+        code: "WS.DR",
+        name: "The Drift",
+        tagline: "Precision with a pulse.",
+        summary: "Intellectually aggressive and aesthetically clean narration that wields irony, structural clarity, and cultural literacy to critique systems without sentimentality.",
+        core: `Drift style fuses rhetorical sharpness with aesthetic control. The tone is self-aware, unsentimental, and culturally embedded, often implicating the narrator while maintaining critical distance. Phrasing is confident, layered, and occasionally biting — always designed to reveal contradiction or hollowness in dominant norms. Syntax favors declarative momentum with room for tonal pivots and jagged edges. Figurative language is limited and strategic, used to clarify or reframe rather than evoke mood. Perspective allows close access to thought, but avoids emotional indulgence. The voice carries moral gravity, but disdains didacticism. Dialogue is minimal and used primarily for ideological contrast or social texture. Themes include cultural malaise, institutional entropy, ideological convenience, and moral resignation. Formal quirks include stark transitions, anti-resolution endings, embedded historical echoes, and a refusal to moralize or redeem.`,
+        bestFit: [
+          "Cultural autopsy",
+          "Contemporary moral critique",
+          "Anti-heroic observation",
+          "Decline narratives without uplift",
+          "Philosophical irony in the face of collapse"
+        ],
+        sample: `She refreshed the feed for the seventh time in an hour. Nothing had changed. A new article about burnout, a thread on the death of nuance, a promoted post for magnesium gummies. This, she thought, was the new scholarship. The performance of awareness had replaced the practice of attention.`
+      },
+      {
+        code: "WS.GP",
+        name: "General Prose",
+        tagline: "Inner life meets outer world, softly illuminated.",
+        summary: "Introspective, quietly profound narration blending sensory immersion, self-reflection, and cultural specificity with a gently philosophical current.",
+        core: `General Prose (WS.GP) fuses casual sophistication with a contemplative intimacy. The tone is warm, inward, quietly intense—thoughtful without pretension, emotionally resonant but never melodramatic. Phrasing tends toward contemplative observation and reflective inner dialogue, punctuated by wry humor, moments of self-deprecation, and the mingling of philosophical musings with the concrete events of daily life. Lexicon draws from art, design, yoga, tarot, and the urban rhythms of Montreal, balancing specificity with the occasional poetic flourish.
+Syntax is primarily medium-length and flowing, punctuated with shorter, impactful statements and, at times, longer sentences to capture sensory immersion or emotional nuance. The structure is scene-driven: settings are immersive, oscillating between introspective monologue and conversational, emotionally nuanced dialogue. Pacing is careful and measured, building intimacy and tension gradually, with sections often closing on a note of reflection or understated revelation.
+Dialogue is natural, reflective, and often gently probing—characters speak with openness, reveal vulnerability, and engage in light teasing or philosophical questioning. Exchanges are used both to move the narrative forward and to deepen characterization. The narrative attitude is curious, gently probing, and nonjudgmental, observing psychological detail and relational dynamics with sympathy but without overt verdicts.
+
+Distinctive elements include frequent metaphor and symbolism, habitual attention to physical detail (gestures, clothing, posture), and references to art, music, and literature as thematic anchors. The prose blends realism with spiritual or mystical undertones, consistently emphasizing sensory and emotional immersion. Themes of vulnerability, authenticity, and transformation recur, often using Montreal’s cultural and sensory landscape as more than mere backdrop.`,
+        bestFit: [
+          "Quiet moments of self-reflection or personal insight",
+          "Dialogues that mix humor, vulnerability, and philosophical curiosity",
+          "Urban encounters filtered through a sensory and emotional lens",
+          "Scenes where physical spaces mirror internal states",
+          "Ordinary experiences charged with symbolic or transformative significance"
+        ],
+        sample: `He paused by the window, light spilling over the old wooden floorboards and across the worn spines of his books. Outside, Montreal’s morning clatter filtered up through the open glass. His hand tightened around the chipped mug, the warmth grounding him as the weight of last night’s conversation returned.`
+      },
+      {
+        code: "WS.VE",
+        name: "Visceral Experimental",
+        tagline: "Body first, coherence later.",
+        summary: "Fragmented, raw narration focused on destabilized perception, sensory immersion, and bold physicality.",
+        core: `Visceral Experimental embraces raw sensation and formal disruption. Tone is intense, physical, and destabilized. Phrasing is fragmented, jagged, and often recursive. Lexicon favors tactile, bodily language and avoids abstraction. Syntax breaks convention, employing sentence fragments, compression, and atypical flow. Narrative structure de-centers traditional arcs, privileging moment-to-moment perception and raw affect. Dialogue, when present, blends into stream-like narration or ruptures flow with abruptness. Perspective is deep inside bodily and psychological states, prioritizing sensory immediacy. Themes include transgression, emotional extremity, and psychic rupture. Formal quirks include typographic play, sentence breaking, and elimination of narrative clarity.`,
+        bestFit: [
+          "Sex",
+          "Violence",
+          "Emotional breakdowns",
+          "Fever dreams or altered states"
+        ],
+        sample: `The card pulses between them, its colors too bright, edges too sharp. It burrows into Bart's flesh—not his eyes, not his mind, but somewhere under the sternum where tissue meets bone. His fingers spider across the coffee table edge. Breath scrapes in, hot and metallic. "Wallow..." The syllables leak out, barely disturbing the air.`
+      },
+      {
+        code: "WS.BX",
+        name: "Boxed Modern",
+        tagline: "Modernist precision in a confined world.",
+        summary: "Formalist narration blending clipped, modern syntax and design with ironic detachment.",
+        core: `Boxed Modern frames narrative in strict modular units—paragraphs as boxes, sentences as beams. Tone is controlled, architectural, and tinged with irony. Phrasing is stripped of excess, favoring function over lyricism. Lexicon is modernist, sometimes jargon-laden, echoing technology, industry, or the art world. Syntax is regular, blocky, anti-poetic. Narrative structure is modular, with scenes snapped together but not fully integrated. Dialogue is crisp, minimal, and faintly absurd. Perspective remains surface-level, flattening affect and elevating structure. Themes: control vs. entropy, design as fate, constraint, emotional sterility. Formal quirks: lists, diagrams, modular narrative, anti-climax, allusion to visual art/installations.`,
+        bestFit: [
+          "Scenes in offices, galleries, apartments",
+          "Dialogue-heavy or list-based narrative",
+          "Stories about technology, bureaucracy, or city life"
+        ],
+        sample: `He arranges the seven cups in a line. Bart counts each one. No magic. Just objects. "Wallow," he repeats, boxy voice in a boxy room. The line is straight. The story will not curve.`
+      },
+      {
+        code: "WS.VN",
+        name: "Vivid Narrative",
+        tagline: "Color, energy, and immediacy on every page.",
+        summary: "Lively, richly detailed narration that blends cinematic energy and immersive scene-building.",
+        core: `Vivid Narrative pushes description to the foreground, making every moment burst with detail and sensation. Tone is lively, warm, and responsive, welcoming the reader into a world that feels lived-in and close at hand. Phrasing balances punchy dialogue with expansive, immersive scenic passages. Lexicon is tactile, visual, and filled with color, movement, and mood. Syntax shifts between cinematic present-tense beats and lush descriptive flow. Narrative structure alternates between kinetic action and atmospheric pause. Dialogue is fast, believable, and draws on specific contemporary idioms. Perspective is immediate and bodily, always near the characters’ breath and sightline. Themes include vibrancy, social energy, urban or natural environment, immediacy, delight. Formal quirks include lush lists, dynamic scene cuts, cross-cutting between dialogue and setting.`,
+        bestFit: [
+          "Active scenes—crowds, cities, meals, public spaces",
+          "Vivid outdoor or weather scenes",
+          "Moments of arrival, entrance, or exit"
+        ],
+        sample: `The cups glint under bar lights. Bart spins a coin between his fingers. Voices rise and fall in the background, a constant swirl. "Wallow," he grins, taking it as a dare. The room is full of possibility. The story moves.`
+      }
+    ];
+
+    // Accent color palette for 14 styles/tabs
+    const palette = [
+      "rgb(77, 91, 106)",     // Dyrehaven
+      "rgb(61, 78, 87)",      // Serge
+      "rgb(154, 160, 114)",   // Saxon Green
+      "rgb(47, 87, 44)",      // Danish Lawn
+      "rgb(109, 95, 80)",     // Pantalon
+      "rgb(133, 80, 71)",     // Etruscan Red
+      "rgb(197, 143, 134)",   // Potted Shrimp
+      "rgb(139, 157, 155)",   // Sugar Bag Light
+      "rgb(54, 94, 80)",      // Mere Green
+      "rgb(36, 57, 49)",      // Monkey Puzzle
+      "rgb(191, 65, 48)",     // Copenhagen Roof
+      "rgb(203, 158, 89)",    // India Yellow
+      "rgb(158, 66, 47)",     // Terre D’Egypte
+      "rgb(106, 144, 180)"    // Chinese Blue
+    ];
+
+    const tabsDiv = document.getElementById('tabs');
+    const contentDiv = document.getElementById('content');
+    let currentTab = 0, copyTimeout = null;
+
+    function renderTabs() {
+      tabsDiv.innerHTML = '';
+      styles.forEach((style, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = `${style.code}: ${style.name}`;
+        btn.className = 'tab-btn' + (i === currentTab ? ' selected' : '');
+        btn.style.background = palette[i % palette.length];
+        btn.onclick = () => {
+          currentTab = i;
+          renderTabs();
+          renderContent();
+        };
+        tabsDiv.appendChild(btn);
+      });
+    }
+
+    function renderContent() {
+      const s = styles[currentTab];
+      contentDiv.innerHTML = `
+        <div class="style-card" style="border-top-color: ${palette[currentTab % palette.length]}">
+          <div class="style-header" style="color: ${palette[currentTab % palette.length]}">
+            ${s.code}: ${s.name}
+          </div>
+          <div class="section-title">Tagline</div>
+          <div>${s.tagline}</div>
+          <div class="section-title">One Sentence Summary</div>
+          <div>${s.summary}</div>
+          <div class="section-title-row">
+            <div class="section-title">Core Profile</div>
+            <button class="copy-btn" onclick="copyCoreProfile(${currentTab})" title="Copy Core Profile">Copy</button>
+            <span id="copied-alert-container"></span>
+          </div>
+          <div id="core-profile-block">${s.core}</div>
+          <div class="section-title">Best Fit Scenes</div>
+          <ul class="fit-scenes-list">${s.bestFit.map(x => `<li>${x}</li>`).join('')}</ul>
+          <div class="section-title">Sample</div>
+          <div class="sample-block">${s.sample}</div>
+        </div>
+      `;
+    }
+
+    // Copy function using navigator clipboard
+    window.copyCoreProfile = function(tabIdx) {
+      const coreText = styles[tabIdx].core;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(coreText).then(() => showCopied());
+      } else {
+        // fallback
+        const temp = document.createElement('textarea');
+        temp.value = coreText;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showCopied();
+      }
+    }
+    function showCopied() {
+      let alert = document.querySelector('.copied-alert');
+      if(alert) alert.remove();
+      let container = document.getElementById('copied-alert-container');
+      if(container) {
+        let el = document.createElement('span');
+        el.className = 'copied-alert';
+        el.innerText = 'Copied!';
+        container.appendChild(el);
+        clearTimeout(copyTimeout);
+        copyTimeout = setTimeout(()=>{ if(el) el.remove(); }, 1300);
+      }
+    }
+
+    renderTabs();
+    renderContent();
+  </script>
+</body>
+</html>

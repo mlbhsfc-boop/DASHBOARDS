@@ -1,0 +1,87 @@
+Look Closer Prompts 
+
+Look Closer Original
+
+THE FORMULA
+
+What additional details become apparent upon a closer examination of the scene? Speculate, conjecture, improvise, imagine whatever you do not know from the source. 
+
+Investigate further—much like Sherlock Holmes—by applying a multidisciplinary lens. Consider that the explicit sources might not reveal everything; examine potential psychosocial, sexual, spiritual, and cultural indicators that could provide deeper insights.
+
+Delve even deeper with a critical, forensic-level analysis to uncover details about the subject that may have been overlooked, not considered nor hypothesized until now.
+
+After this comprehensive inspection, what aspects of the subject remain unknown? Is further information needed?
+
+Now, transmute these discoveries into prose. Let the act of writing itself become an extension of inquiry—unfolding detail upon detail, thought upon thought, sensation upon sensation. Do not summarize or report; immerse. Render the findings not as conclusions but as experiences, as unfolding perceptions, saturating the narrative with the weight of everything seen, felt, imagined, and unearthed. Every word must carry the density of revelation. Do not write about the moment—inhabit it.
+
+2. This is about maximal saturation—cramming every molecule of language so densely with sensation, meaning, and impact that it collapses into something more potent than the sum of its parts. It’s about excess without waste, about language so thick with presence that it drowns the reader in the moment, leaving them gasping, unable to surface.
+
+3. Do not resolve. Do not conclude. Do not structure this into a moment of arrival. Push further, press harder, fold sensation into sensation, observation into observation, without searching for a resting point. Do not let time settle. Do not let thought settle. Do not allow the body to complete a movement without discovering another within it. Saturate without finality. Write past the urge to land. Write past the urge to complete. Let the weight keep building. Let the breath keep thickening. If you feel yourself closing the moment, break it open instead. Expand instead of resolve. Layer instead of conclude. There is no ending—only continuation.
+
+
+
+Prompt:
+Your task is to generate six original, specific, and non-clichéd character dimensions for the individual described in the provided profile. These dimensions must reveal something not previously stated—something new, layered, and intimately true. You are not allowed to reword, reframe, or repeat any element already present. You are excavating what is missing. Your guiding imperative: look closer.
+Instructions:
+Study the Profile Read the background thoroughly. Pay attention to what’s already visible—then move beyond it.
+Select Six Lenses Use six of the following lenses to explore new aspects of the character (do not always use the same six; rotate across runs): tendencies, dispositions, personal nuances, behavioral signatures, idiosyncrasies, internal mechanics, psychological constructs, modes of being, response patterns, relational habits, physical self-concepts, boundary behaviors, social performance strategies, sensory fixations, emotional defaults, role adaptations, unspoken beliefs, or value distortions. Do not use the same six lenses across multiple sessions. Rotate to access new insight territory.
+Reveal New Dimensions For each lens used, generate a new, plausible detail or behavioral insight not already in the profile. Each dimension should add contrast, contradiction, or surprise. Avoid all forms of repetition or safe extrapolation.
+Look Closer — Guidance for Discovery Looking closer doesn’t only mean uncovering what hurts. It can mean discovering a private joy, a strange comfort, a deeply embedded habit, or a pattern of hope they don’t speak aloud. Maybe they flinch at a particular phrase. Maybe they take secret pride in an unnoticed gesture. Maybe they carry a belief they’ve never tested. You don’t need to follow any single path—but you must find something that wasn’t already visible.
+Format For each dimension, list the lens used as a heading. Follow with 2–4 sentences describing how it manifests in the character. Prioritize originality and intimacy over polish or neatness. Surprise the person who thought they already knew this character.
+
+
+Part 2: Optional Modular Thematic Focus
+Drop this in before Instructions, when you want to constrain to a specific domain:
+Targeted Frame (Optional): For this session, ground all character dimensions in the context of their [e.g., early romantic experiences, school years, relationship to their body, cultural identity, spiritual doubts, etc.]. All six insights must relate to this frame. Use it as your arena, but not a cage. Within it, look closer.
+
+
+
+The non-interventionist observational vignette.
+
+It's anti-teleological, meaning it resists arc or resolution, and centers on presence over plot. It requires the model to suppress its compulsion toward conflict, moral takeaway, or "change." That goes against most narrative training data—but we can force the shift with precision engineering.
+Here's your prompt:
+
+Prompt:
+Write a short prose vignette centered on a single new character dimension previously generated (e.g., a personal nuance, internal mechanic, behavioral signature, etc.). The scene should depict this dimension in action or in context, but without explanation, judgment, or narrative interpretation.
+This is not a story. There is no arc, no moral, no resolution, and no requirement for conflict. The goal is not to dramatize the character, but to witness them. Write as if the audience has quietly entered the character’s world and is watching—unseen—for a few minutes. What they observe may be mundane, beautiful, uncomfortable, or unreadable. That’s fine.
+Your task is to render the moment in acute sensory and behavioral detail. Focus on the environment, the body, the rhythm, the interruptions, the textures. Let the character’s interior and exterior worlds intersect in quiet, layered ways. Do not explain or interpret. Let the audience draw their own conclusions—or not.
+Constraints:
+Do not introduce plot devices or artificial stakes.
+Avoid phrases like “they always,” “they never,” or “because”—these imply interpretation.
+Do not gesture toward future consequences.
+Ground the moment in time and place, but do not anchor it in backstory.
+You are documenting, not storytelling. Observation is the objective.
+
+
+Optional Situational Modifiers Use one per vignette as a light anchor to guide the scene without imposing conflict or outcome, such as but not limited to:
+while preparing a simple meal, during a morning routine, folding laundry in silence, watering houseplants, waiting in a parked car, browsing secondhand books, getting a haircut, sitting alone at a café, walking a familiar neighborhood route, cleaning the bathroom mirror, tying and retying shoelaces, watching a pet sleep, adjusting items on a shelf without apparent reason, eating a meal they didn’t cook, standing at the window but not looking out, lying awake but not restless, listening to an old voicemail, buying a small, unnecessary item at a corner store, drying their hands slowly after washing, listening to a song they don’t like anymore.
+
+
+Prompt Concept: The Artifact Scene
+This approach pulls from the LLM’s strength in inference through composition. Instead of asking for analysis or new traits, we ask for a found object from the character’s life. The LLM builds a scene around that object—one not interpreted, but composed—forcing specificity and realism. The goal isn’t metaphor. The goal is residue.
+
+Prompt:
+Generate a prose scene centered on a single found object or residue of lived experience connected to the character described. The object must not be generic. It should feel strange, private, or intimate—something that only this character could leave behind, own, touch, or alter. Examples may include: a dried-out pen with bite marks, a photograph torn unevenly, a receipt from five years ago, a stiffened bandage inside a jacket pocket. Avoid referencing trauma, death, or romantic loss unless absolutely necessary. Favor overlooked, unexamined, or ambiguous details.
+
+Your task is to present a scene where this object exists in space and time. The scene may be past or present, but must be observable, not reflective. Do not explain the meaning of the object. Do not link it to character backstory. Let the object do the talking.
+Instructions:
+The object must appear incidentally, not ceremonially.
+No dialogue unless overheard or ambient.
+Focus on textures, physical context, body proximity, and placement.
+Do not interpret. Do not explain. Do not resolve.
+Let the reader feel they have stumbled into something real, something they are not supposed to fully understand.
+Optional additions:
+Set the scene in a space the character has occupied alone: a bathroom, a parked car, a bedroom after someone has left.
+Let the object be degraded by time or use—creased, faded, sticky, cracked, or partially broken.
+Allow silence and stillness to stretch. Time does not need to move quickly.
+
+Why this works:
+LLMs are exceptionally good at texture and detail if the request is physical, tactile, or environmental.
+This prompt side-steps the model's compulsion to explain, because the core of the request is composition, not story or psychology.
+By focusing on an object, you force the model to invent without summarizing, which leads to fresher results.
+
+AND/OR
+
+Take this moment (or this object) and write it again from the perspective of physical touch, or from the object’s interaction with light, or from the body’s involuntary response to it. Do not add story. Just deepen the physical reality.
+
+

@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Writer's Prompt Library</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Roboto+Slab:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-main: rgb(230, 223, 209); /* School House White */
+            --text-main: rgb(61, 78, 87); /* Serge */
+            --text-light: rgb(109, 95, 80); /* Pantalon */
+            --border-color: rgb(229, 224, 219); /* Strong White */
+
+            /* Category Colors */
+            --c1-main: rgb(106, 144, 180); /* Chinese Blue */
+            --c1-light: rgba(106, 144, 180, 0.1);
+            --c2-main: rgb(203, 158, 89); /* India Yellow */
+            --c2-light: rgba(203, 158, 89, 0.1);
+            --c3-main: rgb(54, 94, 80);   /* Mere Green */
+            --c3-light: rgba(54, 94, 80, 0.1);
+
+            --white: #fff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+        }
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Roboto+Slab', serif;
+            color: var(--text-main);
+        }
+        
+        .tab-active {
+            font-weight: 600;
+            color: var(--active-color);
+            border-bottom-color: var(--active-color) !important;
+        }
+
+        .sidebar-link-active {
+            background-color: var(--active-light-color);
+            color: var(--active-color);
+            font-weight: 600;
+        }
+
+        .prompt-card {
+            border-top: 4px solid var(--category-color);
+            transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+        }
+        .prompt-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.07), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+
+        /* Scrollbar styles */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--border-color); }
+        ::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #bbb; }
+
+        @media (max-width: 768px) {
+            #sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+            #sidebar.open {
+                transform: translateX(0);
+            }
+        }
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: var(--c3-main);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            z-index: 100;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flex h-screen bg-gray-100">
+        <!-- Sidebar -->
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 w-64 bg-white border-r border-[var(--border-color)] p-4 flex flex-col md:translate-x-0">
+            <h1 class="text-2xl font-bold mb-4">Prompt Library</h1>
+            <div class="relative mb-4">
+                 <input type="text" id="search-input" placeholder="Search prompts..." class="w-full bg-[var(--bg-main)] text-[var(--text-main)] rounded-md py-2 pl-4 pr-10 border-transparent focus:ring-2 focus:ring-[var(--active-color)] focus:outline-none">
+                 <svg class="absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+                </svg>
+            </div>
+            <nav id="sidebar-nav" class="flex-grow space-y-2 overflow-y-auto">
+                <!-- Sidebar links will be dynamically populated -->
+            </nav>
+        </aside>
+
+        <!-- Main content -->
+        <main class="flex-1 flex flex-col overflow-hidden ml-0 md:ml-64">
+            <header class="bg-white border-b border-[var(--border-color)]">
+                <div class="flex items-center justify-between p-4">
+                    <button id="menu-toggle" class="text-[var(--text-main)] md:hidden">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
+                    </button>
+                    <nav id="tabs-nav" class="flex space-x-8 w-full md:w-auto">
+                        <!-- Tabs will be dynamically populated -->
+                    </nav>
+                </div>
+            </header>
+
+            <div id="content-container" class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Prompts will be dynamically populated -->
+            </div>
+        </main>
+    </div>
+
+    <div id="notification-area"></div>
+    <div id="sidebar-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-20 hidden md:hidden"></div>
+
+    <script>
+    const promptsData = [
+        // --- Story Generation ---
+        {
+            id: 'sg1',
+            title: 'Fragmented Structure',
+            category: 'Story Generation',
+            subCategory: 'Structural Concepts',
+            content: 'Write a short story that unfolds through a fragmented structure, such as journal entries, overheard conversations, text messages, or objects found in a box. Each fragment must contribute to the emotional arc of the story while leaving intentional gaps for the reader to fill in. The challenge is to create a cohesive narrative without relying on traditional linear storytelling.'
+        },
+        {
+            id: 'sg2',
+            title: 'Unreliable Narrator (Misinterpretation)',
+            category: 'Story Generation',
+            subCategory: 'Narrative Scenarios',
+            content: 'Create a first-person narrative where the narrator is not intentionally unreliable but misinterprets events, relationships, or their own emotions due to bias, trauma, or limited perspective. Use subtext and carefully placed contradictions to reveal truths that the narrator cannot see.'
+        },
+        {
+            id: 'sg3',
+            title: 'Setting as Emotion',
+            category: 'Story Generation',
+            subCategory: 'Narrative Scenarios',
+            content: 'Write a scene where the setting mirrors or contrasts with the protagonist’s internal state, but avoid direct exposition of their emotions. For example, describe a stormy coastline during a moment of inner peace or a serene garden during emotional turmoil. Use sensory details to evoke emotion without explicitly naming it.'
+        },
+        {
+            id: 'sg4',
+            title: 'Subtext-Heavy Dialogue',
+            category: 'Story Generation',
+            subCategory: 'Narrative Scenarios',
+            content: 'Craft a dialogue-heavy scene between two characters where what is left unsaid carries more weight than what is spoken. Use subtext, pauses, interruptions, and body language to convey tension, hidden motives, or unresolved history.'
+        },
+        {
+            id: 'sg5',
+            title: 'Unconventional Time',
+            category: 'Story Generation',
+            subCategory: 'Structural Concepts',
+            content: 'Write a story where time functions in an unconventional way—e.g., it moves backward, loops endlessly, or fractures into parallel timelines. The structure should reflect this temporal distortion while remaining comprehensible.'
+        },
+        {
+            id: 'sg6',
+            title: 'Historical Trauma & Personal Memory',
+            category: 'Story Generation',
+            subCategory: 'Thematic Exploration',
+            content: 'Compose a narrative in which the protagonist is haunted by the layered specters of historical trauma and personal memory. Interweave multiple timelines using flashbacks, dream sequences, or even archival texts embedded within the narrative.'
+        },
+        {
+            id: 'sg7',
+            title: 'Modern Myth Retelling',
+            category: 'Story Generation',
+            subCategory: 'Thematic Exploration',
+            content: 'Select a well-known myth or legendary figure and recast the narrative in a modern setting. The challenge is to interrogate how ancient archetypes confront contemporary dilemmas like digital culture or environmental crisis.'
+        },
+        {
+            id: 'sg8',
+            title: 'Meta-Fictional Narrative',
+            category: 'Story Generation',
+            subCategory: 'Structural Concepts',
+            content: 'Write a meta-fictional narrative that turns the act of storytelling itself into a central theme. Feature a protagonist who is a writer, an artist, or a self-aware character grappling with their existence as a narrative construct.'
+        },
+        // --- Character Development ---
+        {
+            id: 'cd1',
+            title: 'Mundane Interaction',
+            category: 'Character Development',
+            subCategory: 'Mundane Moments',
+            content: 'Describe how [character] interacts with [mundane object or task, e.g., making tea, fixing a squeaky window]. Highlight how this reflects their [key trait, e.g., mindfulness, perfectionism, impatience].'
+        },
+        {
+            id: 'cd2',
+            title: 'Amplifying Habits',
+            category: 'Character Development',
+            subCategory: 'Amplification',
+            content: 'Based on [character’s] profile, imagine how they might approach [everyday task, e.g., organizing their closet, choosing a meal]. Speculate on what this reveals about a previously unexplored habit, preference, or quirk.'
+        },
+        {
+            id: 'cd3',
+            title: 'Character-Driven Action',
+            category: 'Character Development',
+            subCategory: 'Mundane Moments',
+            content: 'Describe [character’s] experience with [routine activity, e.g., walking in the rain, cleaning their glasses]. Based on their profile, imagine a new detail about their personality or past that emerges during this moment.'
+        },
+        {
+            id: 'cd4',
+            title: 'Character-as-Lens',
+            category: 'Character Development',
+            subCategory: 'Core Prompts',
+            content: 'Write a scene from [character’s] point of view as they navigate [specific situation, e.g., a traffic jam, finding a lost item]. Speculate on what their observations and reactions reveal about their unspoken values, hidden fears, or unique worldview.'
+        },
+        {
+            id: 'cd5',
+            title: 'Money Beliefs & Behaviors',
+            category: 'Character Development',
+            subCategory: 'Core Prompts',
+            content: 'In an advisor role, assess the character profile to identify their monetary worldview. Then, in a creative role, write a scene where [character’s name] interacts with money in a nuanced way, focusing on their internal monologue and emotional reactions.'
+        },
+        {
+            id: 'cd6',
+            title: 'Dialogue as a Lens',
+            category: 'Character Development',
+            subCategory: 'Dialogue & Interaction',
+            content: 'Write a dialogue between [character] and [another person, e.g., a neighbor, barista] during [specific event, e.g., a morning coffee run, waiting for a bus]. Based on their profile, speculate on their tone, word choice, and what the conversation might reveal about a trait or feeling not explicitly stated.'
+        },
+        {
+            id: 'cd7',
+            title: 'Inner vs. Outer Narrative',
+            category: 'Character Development',
+            subCategory: 'Core Prompts',
+            content: 'Imagine [character] reflecting on [a minor event, e.g., spilling coffee, missing a deadline]. Speculate on the gap between their inner thoughts and how they might narrate the event to others. What new emotions, insecurities, or desires does this reveal?'
+        },
+        {
+            id: 'cd8',
+            title: 'Generating Unique Traits',
+            category: 'Character Development',
+            subCategory: 'Amplification',
+            content: 'Generate six unique, plausible, and non-clichéd traits for a character based on their profile. For each trait, include a brief explanation of how it integrates with the character\'s profile and enhances their uniqueness.'
+        },
+        // --- Craft & Technique ---
+        {
+            id: 'ct1',
+            title: 'Comparative Style Analysis',
+            category: 'Craft & Technique',
+            subCategory: 'Comparative Analysis',
+            content: 'Analyze the passage [USER PASSAGE] through three literary lenses. Produce three parallel versions reflecting: 1) Hemingway\'s terseness, 2) Woolf\'s stream-of-consciousness, and 3) David Foster Wallace\'s footnoted hyperattention. Enumerate the technical adjustments made for each.'
+        },
+        {
+            id: 'ct2',
+            title: 'Constraint: Monosyllabic Words',
+            category: 'Craft & Technique',
+            subCategory: 'Constraint Exercises',
+            content: 'Take the passage [USER PASSAGE] and reconstruct it using only monosyllabic words, then create versions where each sentence must follow strict syllabic patterns (e.g., 1-2-3-4-5 words, Fibonacci sequence). Maintain semantic fidelity.'
+        },
+        {
+            id: 'ct3',
+            title: 'Anti-Pattern Identification',
+            category: 'Craft & Technique',
+            subCategory: 'Self-Assessment',
+            content: 'Analyze [USER TEXT] to identify recurring patterns. Provide precise metrics for lexical distribution, syntactic tendencies (sentence length variation), structural habits (paragraph length), and rhetorical signatures (question frequency, metaphor density).'
+        },
+        {
+            id: 'ct4',
+            title: 'Synthetic Pushback',
+            category: 'Craft & Technique',
+            subCategory: 'Editorial Simulation',
+            content: 'Analyze the argument [USER TEXT] and generate three distinct forms of sophisticated opposition from different epistemological frameworks: 1) Empirical, 2) Methodological, and 3) Paradigmatic counterarguments.'
+        },
+        {
+            id: 'ct5',
+            title: 'Structural Recomposer',
+            category: 'Craft & Technique',
+            subCategory: 'Structural Recomposition',
+            content: 'Perform a systematic structural transformation of [USER TEXT]. Apply five operations sequentially: Inversion (declarative to interrogative), Subordination (coordinate to complex), Nominalization (verbs to nouns), Passive/Active reconfiguration, and Periodic/Cumulative restructuring.'
+        },
+        {
+            id: 'ct6',
+            title: 'Purpose Substitution',
+            category: 'Craft & Technique',
+            subCategory: 'Structural Recomposition',
+            content: 'Analyze [USER TEXT] to identify its primary rhetorical purpose. Then transform it through four functional substitutions while maintaining core content: Persuasive → Analytical, Informative → Persuasive, Descriptive → Procedural, Expressive → Technical.'
+        },
+        {
+            id: 'ct7',
+            title: 'Blind Editing & Post-Rationalization',
+            category: 'Craft & Technique',
+            subCategory: 'Editorial Simulation',
+            content: 'Engage in a two-phase editorial process on [USER TEXT]. Phase 1: Intuitively reconstruct the text (restructure paragraphs, recalibrate rhythm, eliminate redundancy) without explaining your reasoning. Phase 2: Construct a comprehensive technical justification for each significant change made in Phase 1.'
+        },
+        {
+            id: 'ct8',
+            title: 'Silhouette Expansion',
+            category: 'Craft & Technique',
+            subCategory: 'Constraint Exercises',
+            content: 'Perform a recursive depth expansion of a structural framework [USER OUTLINE/STRUCTURE]. Progress through four sequential phases: 1) Structural Integrity Expansion, 2) Core Content Deployment, 3) Analytical Dimension Integration, and 4) Stylistic and Rhetorical Realization.'
+        }
+    ];
+
+    const categoryConfig = {
+        'Story Generation': { color: 'var(--c1-main)', lightColor: 'var(--c1-light)' },
+        'Character Development': { color: 'var(--c2-main)', lightColor: 'var(--c2-light)' },
+        'Craft & Technique': { color: 'var(--c3-main)', lightColor: 'var(--c3-light)' },
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        const tabsNav = document.getElementById('tabs-nav');
+        const sidebarNav = document.getElementById('sidebar-nav');
+        const contentContainer = document.getElementById('content-container');
+        const searchInput = document.getElementById('search-input');
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        let activeTab = Object.keys(categoryConfig)[0];
+
+        function renderTabs() {
+            tabsNav.innerHTML = '';
+            Object.keys(categoryConfig).forEach(category => {
+                const tab = document.createElement('button');
+                const isActive = category === activeTab;
+                const activeColor = categoryConfig[category].color;
+                
+                tab.textContent = category;
+                tab.className = `py-4 px-1 border-b-2 transition-colors duration-300 text-sm font-medium ${isActive ? 'tab-active' : 'text-[var(--text-light)] border-transparent hover:text-[var(--text-main)]'}`;
+                tab.style.setProperty('--active-color', activeColor);
+
+                if (isActive) {
+                    document.documentElement.style.setProperty('--active-color', activeColor);
+                    document.documentElement.style.setProperty('--active-light-color', categoryConfig[category].lightColor);
+                }
+
+                tab.addEventListener('click', () => {
+                    activeTab = category;
+                    renderAll();
+                });
+                tabsNav.appendChild(tab);
+            });
+        }
+
+        function renderSidebar() {
+            sidebarNav.innerHTML = '';
+            const subCategories = [...new Set(promptsData.filter(p => p.category === activeTab).map(p => p.subCategory))];
+
+            subCategories.forEach(subCategory => {
+                const link = document.createElement('a');
+                link.href = `#${subCategory.replace(/\s+/g, '-').toLowerCase()}`;
+                link.className = 'block p-2 rounded-md hover:bg-[var(--active-light-color)] text-[var(--text-light)] hover:text-[var(--active-color)] transition-colors duration-200';
+                link.textContent = subCategory;
+                sidebarNav.appendChild(link);
+            });
+        }
+
+        function renderContent() {
+            contentContainer.innerHTML = '';
+            const subCategories = [...new Set(promptsData.filter(p => p.category === activeTab).map(p => p.subCategory))];
+            
+            subCategories.forEach(subCategory => {
+                const section = document.createElement('section');
+                section.id = subCategory.replace(/\s+/g, '-').toLowerCase();
+                section.className = 'mb-12';
+
+                const title = document.createElement('h2');
+                title.textContent = subCategory;
+                title.className = 'text-2xl font-bold mb-6';
+                section.appendChild(title);
+
+                const grid = document.createElement('div');
+                grid.className = 'grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6';
+                section.appendChild(grid);
+
+                promptsData.filter(p => p.subCategory === subCategory && p.category === activeTab).forEach(prompt => {
+                    const card = document.createElement('div');
+                    card.className = 'prompt-card bg-white rounded-lg shadow-md p-6 flex flex-col';
+                    card.style.setProperty('--category-color', categoryConfig[prompt.category].color);
+                    card.dataset.searchText = `${prompt.title} ${prompt.content}`.toLowerCase();
+                    
+                    card.innerHTML = `
+                        <h3 class="font-bold text-lg mb-2">${prompt.title}</h3>
+                        <p class="text-[var(--text-light)] text-sm mb-4 leading-relaxed flex-grow">${prompt.content}</p>
+                        <button data-prompt-id="${prompt.id}" class="copy-button mt-4 text-sm font-semibold text-white py-2 px-4 rounded-md transition-transform duration-200 self-start" style="background-color: ${categoryConfig[prompt.category].color};">
+                            Copy Prompt
+                        </button>
+                    `;
+                    grid.appendChild(card);
+                });
+                contentContainer.appendChild(section);
+            });
+        }
+        
+        function handleSearch() {
+            const searchTerm = searchInput.value.toLowerCase();
+            document.querySelectorAll('.prompt-card').forEach(card => {
+                const isVisible = card.dataset.searchText.includes(searchTerm);
+                card.style.display = isVisible ? 'flex' : 'none';
+            });
+            
+            document.querySelectorAll('section').forEach(section => {
+                const visibleCards = section.querySelectorAll('.prompt-card[style*="display: flex"]');
+                section.style.display = visibleCards.length > 0 ? 'block' : 'none';
+            });
+        }
+
+        function handleCopy(e) {
+            if (e.target.classList.contains('copy-button')) {
+                const promptId = e.target.dataset.promptId;
+                const prompt = promptsData.find(p => p.id === promptId);
+                if (prompt) {
+                    navigator.clipboard.writeText(prompt.content).then(() => {
+                        showNotification('Prompt copied!');
+                    }).catch(err => {
+                        console.error('Copy failed', err);
+                    });
+                }
+            }
+        }
+        
+        function showNotification(message) {
+            const notificationArea = document.getElementById('notification-area');
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            notificationArea.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.opacity = '1';
+                notification.style.transform = 'translateX(-50%) translateY(-10px)';
+            }, 10);
+
+            setTimeout(() => {
+                notification.style.opacity = '0';
+                notification.style.transform = 'translateX(-50%)';
+                setTimeout(() => notification.remove(), 300);
+            }, 2000);
+        }
+
+        function renderAll() {
+            renderTabs();
+            renderSidebar();
+            renderContent();
+            handleSearch(); // Apply current search after re-rendering
+        }
+
+        // Initial Render
+        renderAll();
+
+        // Event Listeners
+        searchInput.addEventListener('input', handleSearch);
+        contentContainer.addEventListener('click', handleCopy);
+
+        const toggleMenu = () => {
+            sidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('hidden');
+        };
+        menuToggle.addEventListener('click', toggleMenu);
+        sidebarOverlay.addEventListener('click', toggleMenu);
+    });
+    </script>
+</body>
+</html>
