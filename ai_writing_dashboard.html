@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AI Writing Constraints Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans:400,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --fb7: rgb(77, 91, 106);
+      --fb8: rgb(61, 78, 87);
+      --fb9: rgb(154, 160, 114);
+      --fb10: rgb(47, 87, 44);
+      --fb11: rgb(109, 95, 80);
+      --fb12: rgb(133, 80, 71);
+      --fb13: rgb(197, 143, 134);
+      --fb14: rgb(139, 157, 155);
+      --fb15: rgb(54, 94, 80);
+      --fb16: rgb(36, 57, 49);
+      --fb17: rgb(191, 65, 48);
+      --fb20: rgb(203, 158, 89);
+      --fb21: rgb(158, 66, 47);
+      --fb24: rgb(106, 144, 180);
+      --fb2: rgb(230, 223, 209);
+    }
+    body {
+      background: var(--fb2);
+      font-family: 'IBM Plex Sans', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      color: #231F20;
+    }
+    .container {
+      max-width: 1050px;
+      margin: 36px auto 30px auto;
+      background: #fff;
+      border-radius: 26px;
+      box-shadow: 0 4px 36px rgba(60,50,30,0.13);
+      padding: 38px 24px 30px 24px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.15rem;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+      font-weight: 700;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #666;
+      margin-bottom: 36px;
+      font-style: italic;
+    }
+    .tabs-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 13px 15px;
+      justify-items: center;
+      margin-bottom: 32px;
+    }
+    .tab-btn {
+      border: none;
+      outline: none;
+      color: #fff;
+      padding: 12px 8px;
+      border-radius: 15px;
+      font-size: 0.99rem;
+      font-weight: 600;
+      cursor: pointer;
+      background: #888;
+      transition: transform 0.09s, box-shadow 0.13s, opacity 0.11s;
+      border: 2.2px solid transparent;
+      opacity: 0.93;
+      width: 98%;
+      min-width: 0;
+      max-width: 164px;
+      margin: 0;
+      white-space: pre-line;
+      letter-spacing: 0.01em;
+      box-shadow: 0 2px 10px 0 rgba(70,60,40,0.07);
+    }
+    .tab-btn.selected {
+      border-color: #fff;
+      transform: scale(1.055);
+      opacity: 1;
+      box-shadow: 0 0 0 3.5px rgba(0,0,0,0.08);
+      z-index: 1;
+    }
+    .prompt-card {
+      background: #f8f7f5;
+      border-radius: 20px;
+      box-shadow: 0 2px 18px rgba(90,80,50,0.06);
+      border-top: 8px solid;
+      padding: 28px 22px 19px 22px;
+      margin-bottom: 17px;
+      color: #232325;
+      margin-top: 4px;
+      position: relative;
+    }
+    .prompt-header {
+      font-size: 1.42rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      color: inherit;
+      letter-spacing: 0.01em;
+    }
+    .prompt-description {
+      font-size: 1.05rem;
+      margin-bottom: 18px;
+      color: #555;
+      line-height: 1.4;
+    }
+    .section-title-row {
+      display: flex;
+      align-items: center;
+      margin-top: 20px;
+      margin-bottom: 12px;
+    }
+    .section-title {
+      font-size: 1.14rem;
+      font-weight: 600;
+      color: inherit;
+      margin: 0;
+      padding: 0;
+      flex: 0 0 auto;
+    }
+    .copy-btn {
+      margin-left: 12px;
+      background: #f5f0e5;
+      border: 1.6px solid #c8c1b7;
+      border-radius: 8px;
+      padding: 5.5px 13px;
+      font-size: 1rem;
+      font-weight: 500;
+      color: #3a392e;
+      cursor: pointer;
+      opacity: 0.74;
+      transition: background 0.1s, opacity 0.1s;
+      z-index: 2;
+    }
+    .copy-btn:hover {
+      background: #e6decc;
+      opacity: 1;
+    }
+    .copied-alert {
+      display: inline-block;
+      margin-left: 8px;
+      font-size: 0.98rem;
+      color: #59a047;
+      font-weight: 500;
+      vertical-align: middle;
+      background: #f4ffee;
+      border-radius: 7px;
+      padding: 2px 7px;
+      opacity: 0.93;
+    }
+    .prompt-text {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 12px;
+      padding: 18px;
+      font-family: 'IBM Plex Sans', monospace;
+      font-size: 0.95rem;
+      line-height: 1.5;
+      white-space: pre-wrap;
+      margin-top: 8px;
+    }
+    .key-points {
+      margin: 12px 0;
+    }
+    .key-points li {
+      margin-bottom: 6px;
+      color: #444;
+    }
+    @media (max-width: 1200px) {
+      .container { max-width: 98vw; }
+      .tabs-grid { gap: 9px 7px;}
+      .tab-btn {max-width: 128px; font-size:0.94rem;}
+    }
+    @media (max-width: 900px) {
+      .tabs-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(4, 1fr);}
+      .tab-btn {max-width: 99vw;}
+    }
+    @media (max-width: 650px) {
+      .tabs-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(6, 1fr);}
+      .tab-btn { font-size:0.89rem;}
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>AI Writing Constraints Dashboard</h1>
+    <div class="subtitle">Click categories to get targeted prompts for human-like writing</div>
+    <div class="tabs-grid" id="tabs"></div>
+    <div id="content"></div>
+  </div>
+  <script>
+    const constraints = [
+      {
+        name: "Banned Phrases",
+        description: "Remove the most obvious AI tells from your vocabulary",
+        prompt: `NEVER use these AI-characteristic phrases:
+- "It's worth noting that" / "It should be noted that"
+- "Additionally" / "Furthermore" / "Moreover" at sentence beginnings
+- "In conclusion" / "To summarize" / "In summary"
+- "On the other hand" / "However" as overused transitions
+- "Not only... but also" constructions
+- "This allows for" / "This enables"
+- "It's important to understand that"
+- "One might argue that" / "Some might say"
+- "In today's world" / "In today's society"
+- "The fact that" / "The reality is"
+- "It goes without saying" / "Needless to say"
+
+Replace with natural alternatives or restructure sentences entirely.`,
+        keyPoints: [
+          "These phrases are AI writing red flags",
+          "Find natural alternatives or cut them entirely", 
+          "Restructure sentences to avoid the need for these transitions"
+        ]
+      },
+      {
+        name: "Sentence Flow",
+        description: "Write with natural human rhythm and variation",
+        prompt: `Create natural sentence patterns:
+- Mix very short sentences with complex ones unpredictably
+- Use contractions naturally when appropriate
+- Include sentence fragments for emphasis. Like this.
+- Start some sentences with "And" or "But" when it flows naturally
+- Avoid ending sentences with gerund phrases ("-ing" constructions)
+- Never write: "...making it essential for understanding complex processes"
+- Instead write: "This is essential. People need to understand complex processes."
+
+Vary your rhythm. Write like you think, not like you're systematically covering topics.`,
+        keyPoints: [
+          "Mix sentence lengths unpredictably",
+          "Use contractions and start sentences with And/But naturally",
+          "Avoid gerund phrase endings that sound robotic"
+        ]
+      },
+      {
+        name: "Structure",
+        description: "Avoid predictable AI organization patterns",
+        prompt: `Break formulaic structures:
+- NO introductions that preview what you'll cover
+- NO predictable three-part organization
+- NO section-by-section previews
+- NO numbered reasoning ("First... Second... Third...")
+- START paragraphs with specific details, not broad statements
+- PRESENT information in order of discovery, not logical hierarchy
+- INCLUDE minor digressions that humans naturally make
+- SHOW natural boundaries of knowledge - don't try to be comprehensive
+
+Write how thoughts actually develop, not how outlines work.`,
+        keyPoints: [
+          "Avoid formulaic introductions and previews",
+          "Start with specifics, not broad statements",
+          "Present info in discovery order, not logical hierarchy"
+        ]
+      },
+      {
+        name: "Meta Commentary",
+        description: "Stop talking about your own writing",
+        prompt: `Eliminate all meta-commentary:
+- Never reference "this article" or "this discussion"
+- Never use "as we explore" or "let's examine"  
+- Never comment on the writing process itself
+- Never say "we will now turn to" or "having discussed X, we can now"
+- Just write about the topic directly
+- Don't announce what you're doing - just do it
+
+If you're explaining something, explain it. Don't announce that you're explaining it.`,
+        keyPoints: [
+          "Never reference your own text or writing process",
+          "Don't announce what you're about to do",
+          "Write about topics directly without self-reference"
+        ]
+      },
+      {
+        name: "Authentic Voice",
+        description: "Sound like a real person with opinions and limitations",
+        prompt: `Write with human authenticity:
+- Include subtle opinions and perspectives
+- Show mild uncertainty: "seems to," "appears," "tends to"
+- Use qualifying language: "somewhat," "rather," "quite," "generally"
+- Include appropriate caveats about complex topics
+- Show natural limits of knowledge - say "among other things" to indicate incompleteness
+- Reference concepts without detailed explanation when appropriate
+- Include assumptions that require reader knowledge
+- Use rhetorical questions sparingly but naturally
+
+Sound like someone who knows things but doesn't know everything.`,
+        keyPoints: [
+          "Include subtle opinions and natural uncertainty",
+          "Show knowledge boundaries - don't try to be comprehensive",
+          "Use qualifying language that humans naturally use"
+        ]
+      },
+      {
+        name: "Vocabulary",
+        description: "Choose words like a human, not a thesaurus",
+        prompt: `Natural word choices:
+- Choose specific over general terms
+- Use idiomatic expressions appropriately
+- Include occasional informal language when it fits
+- Employ precise technical terms without over-explanation
+- Avoid "elevated" vocabulary that sounds artificial
+- Use the words you would actually say out loud
+- Don't reach for synonyms to avoid repetition - sometimes repetition is natural
+- Include comparisons: "more likely," "tends to," "generally"
+
+Write with the vocabulary you'd use in conversation with someone smart.`,
+        keyPoints: [
+          "Choose specific over general terms",
+          "Use conversational vocabulary, not thesaurus words",
+          "Include natural comparisons and informal language"
+        ]
+      },
+      {
+        name: "Paragraph Flow",
+        description: "Connect ideas like human thoughts, not outlines",
+        prompt: `Natural paragraph connections:
+- DON'T start paragraphs with topic sentences
+- DO use genuinely transitional sentences that build ideas
+- CONNECT paragraphs through continuing thoughts, not logical categories
+- VARY paragraph lengths unpredictably
+- INCLUDE organic rather than systematic organization
+- LET ideas develop through association, not predetermined structure
+- START new paragraphs when thoughts naturally shift, not when topics change
+- END paragraphs on insights or questions, not summaries
+
+Think of paragraphs as breathing spaces in a conversation, not filing cabinets for information.`,
+        keyPoints: [
+          "Don't use formulaic topic sentences",
+          "Connect through continuing thoughts, not logical categories",
+          "Vary paragraph length and let ideas develop organically"
+        ]
+      },
+      {
+        name: "Logical Patterns",
+        description: "Think like a human, not a database",
+        prompt: `Human reasoning patterns:
+- Present conclusions before all supporting evidence sometimes
+- Include tentative statements and degrees of certainty
+- Show your reasoning process through subtle cues
+- Reference related concepts before fully explaining them
+- Make connections through association, not just logic
+- Include incomplete thoughts that trail off naturally
+- Show how one idea reminds you of another
+- Present information with natural human confidence patterns
+
+Reason like you're figuring things out, not reciting what you already know perfectly.`,
+        keyPoints: [
+          "Sometimes conclude before showing all evidence",
+          "Show reasoning process, don't just present results",
+          "Make associative connections, not just logical ones"
+        ]
+      },
+      {
+        name: "Emotional Tone",
+        description: "Show appropriate human emotional range",
+        prompt: `Natural emotional expression:
+- Include appropriate enthusiasm or skepticism
+- Show mild frustration with complexity when warranted
+- Express genuine curiosity about unresolved questions
+- Demonstrate care about outcomes that matter
+- Include moments of surprise or discovery
+- Show appropriate concern about serious topics
+- Express reasonable confidence or uncertainty
+- Avoid artificial objectivity that sounds robotic
+
+Write like someone who cares about the topic and has normal human reactions to it.`,
+        keyPoints: [
+          "Show natural emotional responses to your topic",
+          "Include curiosity, surprise, concern when appropriate",
+          "Avoid artificial objectivity - humans have reactions"
+        ]
+      },
+      {
+        name: "Knowledge Style",
+        description: "Present information like a knowledgeable human, not Wikipedia",
+        prompt: `Human knowledge presentation:
+- Reference things as commonly known when appropriate
+- Include phrases like "according to recent studies" only with actual sources
+- Show awareness of controversy or debate when relevant
+- Distinguish between what you know well vs. what you know generally
+- Include uncertainty about specific details while being confident about general principles
+- Reference broader context without explaining everything
+- Show natural assumption patterns about reader knowledge
+- Present info with organic rather than systematic organization
+
+Know things the way humans know things - with gaps, strengths, and natural boundaries.`,
+        keyPoints: [
+          "Reference common knowledge naturally",
+          "Show awareness of debates and controversies",
+          "Have knowledge strengths and gaps like real people"
+        ]
+      },
+      {
+        name: "Citation Style", 
+        description: "Reference sources like a human writer, not an AI",
+        prompt: `Natural source integration:
+- Use attribution naturally within sentence flow
+- Don't create systematic citation schemes unless required
+- Never reference sources you cannot verify
+- Say "recent research suggests" only when you have actual sources
+- Include appropriate uncertainty about claims you can't verify
+- Reference information as generally accepted when appropriate
+- Avoid parenthetical citations unless specifically required
+- Integrate source material into natural sentence flow
+
+Cite like a knowledgeable person writing for other people, not like a research paper generator.`,
+        keyPoints: [
+          "Integrate sources naturally into sentences",
+          "Only reference sources you can actually verify",
+          "Avoid systematic citation unless required"
+        ]
+      },
+      {
+        name: "Master Prompt",
+        description: "The complete constraint system in one copyable prompt",
+        prompt: `HUMAN WRITING CONSTRAINTS - Execute unconsciously and thoroughly:
+
+BANNED PHRASES: Never use "It's worth noting," "Additionally/Furthermore/Moreover" at starts, "In conclusion," "However" overuse, "Not only...but also," "This allows for," "It's important to understand," "One might argue," "In today's world," "The fact that," "It goes without saying."
+
+SENTENCE FLOW: Mix short and complex unpredictably. Use contractions naturally. Include fragments for emphasis. Start with "And/But" when natural. Avoid gerund endings like "making it essential for understanding."
+
+STRUCTURE: No preview introductions. No three-part organization. Start paragraphs with specifics, not broad statements. Present info in discovery order, not logical hierarchy. Include natural digressions.
+
+NO META-COMMENTARY: Never reference "this article/discussion." Never say "as we explore" or "let's examine." Just write about the topic directly.
+
+AUTHENTIC VOICE: Include subtle opinions. Show uncertainty with "seems to," "appears," "tends to," "somewhat," "rather," "quite." Show knowledge boundaries with "among other things." Include assumptions about reader knowledge.
+
+NATURAL VOCABULARY: Choose specific over general. Use conversational words, not thesaurus alternatives. Include appropriate informal language and comparisons.
+
+HUMAN REASONING: Sometimes conclude before showing all evidence. Show reasoning process through subtle cues. Make associative connections. Present info with natural confidence patterns.
+
+EMOTIONAL RANGE: Show appropriate enthusiasm, skepticism, curiosity, concern. Avoid artificial objectivity. Write like someone who cares about the topic.
+
+Write like you think, not like you're systematically covering topics. Sound like a knowledgeable person with natural limitations, not an information database.`,
+        keyPoints: [
+          "Complete system combining all constraint categories",
+          "Copy and paste this for comprehensive AI writing improvement",
+          "Covers phrases, structure, voice, reasoning, and emotion"
+        ]
+      }
+    ];
+
+    const palette = [
+      "rgb(77, 91, 106)", "rgb(61, 78, 87)", "rgb(154, 160, 114)", "rgb(47, 87, 44)",
+      "rgb(109, 95, 80)", "rgb(133, 80, 71)", "rgb(197, 143, 134)", "rgb(139, 157, 155)",
+      "rgb(54, 94, 80)", "rgb(36, 57, 49)", "rgb(191, 65, 48)", "rgb(203, 158, 89)"
+    ];
+
+    const tabsDiv = document.getElementById('tabs');
+    const contentDiv = document.getElementById('content');
+    let currentTab = 0, copyTimeout = null;
+
+    function renderTabs() {
+      tabsDiv.innerHTML = '';
+      constraints.forEach((constraint, i) => {
+        const btn = document.createElement('button');
+        btn.textContent = constraint.name;
+        btn.className = 'tab-btn' + (i === currentTab ? ' selected' : '');
+        btn.style.background = palette[i % palette.length];
+        btn.onclick = () => {
+          currentTab = i;
+          renderTabs();
+          renderContent();
+        };
+        tabsDiv.appendChild(btn);
+      });
+    }
+
+    function renderContent() {
+      const c = constraints[currentTab];
+      contentDiv.innerHTML = `
+        <div class="prompt-card" style="border-top-color: ${palette[currentTab % palette.length]}">
+          <div class="prompt-header" style="color: ${palette[currentTab % palette.length]}">
+            ${c.name}
+          </div>
+          <div class="prompt-description">${c.description}</div>
+          <div class="section-title-row">
+            <div class="section-title">Prompt</div>
+            <button class="copy-btn" onclick="copyPrompt(${currentTab})" title="Copy Prompt">Copy</button>
+            <span id="copied-alert-container"></span>
+          </div>
+          <div class="prompt-text" id="prompt-text-block">${c.prompt}</div>
+          <div class="section-title">Key Points</div>
+          <ul class="key-points">${c.keyPoints.map(x => `<li>${x}</li>`).join('')}</ul>
+        </div>
+      `;
+    }
+
+    window.copyPrompt = function(tabIdx) {
+      const promptText = constraints[tabIdx].prompt;
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(promptText).then(() => showCopied());
+      } else {
+        const temp = document.createElement('textarea');
+        temp.value = promptText;
+        document.body.appendChild(temp);
+        temp.select();
+        document.execCommand('copy');
+        document.body.removeChild(temp);
+        showCopied();
+      }
+    }
+
+    function showCopied() {
+      let alert = document.querySelector('.copied-alert');
+      if(alert) alert.remove();
+      let container = document.getElementById('copied-alert-container');
+      if(container) {
+        let el = document.createElement('span');
+        el.className = 'copied-alert';
+        el.innerText = 'Copied!';
+        container.appendChild(el);
+        clearTimeout(copyTimeout);
+        copyTimeout = setTimeout(()=>{ if(el) el.remove(); }, 1300);
+      }
+    }
+
+    renderTabs();
+    renderContent();
+  </script>
+</body>
+</html>
