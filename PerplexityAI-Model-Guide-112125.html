@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perplexity Model Guide (rev. 11.21.25) | Narrative Strategies 2025</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        .fade-in { animation: fadeIn 0.4s ease-out forwards; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+
+    <!-- HEADER -->
+    <header class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/90">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="bg-gradient-to-br from-indigo-500 to-purple-600 text-white p-2 rounded-lg shadow-md">
+                    <i data-lucide="library" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg font-bold text-slate-900 leading-tight tracking-tight">Perplexity Model Guide</h1>
+                    <p class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">
+                        (rev. 11.21.25)
+                    </p>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="flex-1 max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 relative">
+
+        <div class="fade-in max-w-7xl mx-auto">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold text-slate-900 tracking-tight">Select Your Objective</h2>
+                <p class="text-slate-500 mt-2">Filter the models below to find the perfect fit for your prompt.</p>
+            </div>
+            
+            <!-- Filters -->
+            <div class="flex justify-center gap-2 mb-8 flex-wrap sticky top-20 z-40 py-2">
+                <button onclick="filterModels('all')" class="model-filter active px-5 py-2 rounded-full text-sm font-medium border border-slate-200 bg-slate-800 text-white shadow-lg transition-all transform hover:scale-105">All Models</button>
+                <button onclick="filterModels('reason')" class="model-filter px-5 py-2 rounded-full text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-indigo-50 hover:text-indigo-600 shadow-sm transition-all">Reasoning & Logic</button>
+                <button onclick="filterModels('creative')" class="model-filter px-5 py-2 rounded-full text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-pink-50 hover:text-pink-600 shadow-sm transition-all">Creative Writing</button>
+                <button onclick="filterModels('code')" class="model-filter px-5 py-2 rounded-full text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-orange-50 hover:text-orange-600 shadow-sm transition-all">Coding</button>
+                <button onclick="filterModels('web')" class="model-filter px-5 py-2 rounded-full text-sm font-medium border border-slate-200 bg-white text-slate-600 hover:bg-emerald-50 hover:text-emerald-600 shadow-sm transition-all">Web Search</button>
+            </div>
+
+            <div id="model-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-10">
+                <!-- Cards injected via JS -->
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-200 bg-white py-10 mt-auto">
+        <div class="max-w-6xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6 opacity-50">
+                <div class="h-px bg-slate-300 w-12"></div>
+                <i data-lucide="anchor" class="w-4 h-4 text-slate-400"></i>
+                <div class="h-px bg-slate-300 w-12"></div>
+            </div>
+            <p class="text-xs font-bold text-slate-400 uppercase tracking-[0.2em] mb-6">Narrative Strategies 2025</p>
+            <div class="flex justify-center gap-8 mb-6">
+                <a href="https://bsky.app/profile/aletheus.bsky.social" target="_blank" class="text-slate-400 hover:text-indigo-600 transition-colors transform hover:scale-110"><i data-lucide="cloud" class="w-5 h-5"></i></a>
+                <a href="https://aletheus.com/" target="_blank" class="text-slate-400 hover:text-indigo-600 transition-colors transform hover:scale-110"><i data-lucide="globe" class="w-5 h-5"></i></a>
+                <a href="https://substack.com/@aletheuscompendium" target="_blank" class="text-slate-400 hover:text-indigo-600 transition-colors transform hover:scale-110"><i data-lucide="book-open" class="w-5 h-5"></i></a>
+                <a href="https://github.com/mlbhsfc-boop/DASHBOARDS" target="_blank" class="text-slate-400 hover:text-indigo-600 transition-colors transform hover:scale-110"><i data-lucide="github" class="w-5 h-5"></i></a>
+            </div>
+            <p class="text-[10px] text-slate-400 font-medium">
+                Designed with Gemini Pro 3.0
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // === DATA: PERPLEXITY MODEL DATABASE ===
+        const models = [
+            {
+                id: "sonar",
+                name: "Sonar",
+                type: ["web"],
+                desc: "Perplexity's in-house model (Llama 3.1 70B) optimized for seamless search.",
+                use: "Web-based research requiring high citation depth and factual synthesis.",
+                rec: "Fast, comprehensive searches without external model dependencies.",
+                prompt: "Compare the economic impacts of renewable energy policies in Europe and Asia, citing recent studies.",
+                color: "green"
+            },
+            {
+                id: "gpt51",
+                name: "GPT 5.1",
+                type: ["creative", "code"],
+                desc: "OpenAI's advanced model. Expert reasoning, reduced hallucinations.",
+                use: "Complex problem-solving and creative content generation.",
+                rec: "General queries demanding balanced speed and intelligence.",
+                prompt: "Write a Python script to analyze stock trends from a CSV file and predict future values.",
+                color: "blue"
+            },
+            {
+                id: "gpt51r",
+                name: "GPT 5.1 Reasoning",
+                type: ["reason"],
+                desc: "Incorporates step-by-step reasoning for deeper analysis.",
+                use: "Analytical tasks involving iterative thinking or error reduction.",
+                rec: "Research requiring breakdown of intricate scenarios.",
+                prompt: "Reason through the ethical implications of AI in healthcare, step by step, with counterarguments.",
+                color: "indigo"
+            },
+            {
+                id: "claude45",
+                name: "Claude Sonnet 4.5",
+                type: ["code", "creative"],
+                desc: "Superior performance in coding, reasoning, and computer-use tasks.",
+                use: "Software development and precise technical queries.",
+                rec: "Developers or analysts focused on structured outputs.",
+                prompt: "Debug this JavaScript code for a web app and suggest optimizations for performance.",
+                color: "orange"
+            },
+            {
+                id: "claude45r",
+                name: "Claude Sonnet 4.5 Reasoning",
+                type: ["reason", "code"],
+                desc: "Enhances coding/problem-solving via deliberate analytical processes.",
+                use: "Multi-step technical troubleshooting or optimization.",
+                rec: "Advanced coding projects needing logical depth.",
+                prompt: "Analyze the flaws in this algorithm for sorting large datasets and propose a step-by-step fix.",
+                color: "orange"
+            },
+            {
+                id: "gemini3",
+                name: "Gemini 3 Pro",
+                type: ["web", "creative"],
+                desc: "Google's state-of-the-art generative model. Multimodal master.",
+                use: "Multimodal tasks combining text, images, and data analysis.",
+                rec: "Versatile research involving visuals or code.",
+                prompt: "Describe the key features of quantum computing hardware and generate a diagram explanation.",
+                color: "sky"
+            },
+            {
+                id: "grok4",
+                name: "Grok 4",
+                type: ["creative", "web"],
+                desc: "xAI's assistant for real-time updates and idea exploration.",
+                use: "Exploratory questions and real-time fact-checking.",
+                rec: "Creative brainstorming or quick ideation sessions.",
+                prompt: "Explore innovative ways to integrate AI into urban planning, with real-time examples.",
+                color: "zinc"
+            },
+            {
+                id: "grok4r",
+                name: "Grok 4 Reasoning",
+                type: ["reason"],
+                desc: "Amplifies analytical depth for tough, ambiguous questions.",
+                use: "Complex ideation requiring logical progression.",
+                rec: "Users tackling ambiguous or innovative problems.",
+                prompt: "Reason through potential risks of AI in education and suggest mitigation strategies step by step.",
+                color: "zinc"
+            },
+            {
+                id: "kimi",
+                name: "Kimi K2 Thinking",
+                type: ["reason"],
+                desc: "Moonshot AI's reasoning-focused model.",
+                use: "Logical deduction in specialized or niche topics.",
+                rec: "Think-tank style analysis or hypothesis testing.",
+                prompt: "Deduce the historical causes of the 2008 financial crisis using economic data patterns.",
+                color: "pink"
+            },
+            {
+                id: "opus",
+                name: "Claude Opus 4.1 (max)",
+                type: ["reason", "creative"],
+                desc: "Flagship model for maximum reasoning and agentic tasks. (Max users)",
+                use: "High-stakes agentic workflows or simulations.",
+                rec: "Enterprise-level strategic planning.",
+                prompt: "Simulate a business merger scenario between two tech firms, evaluating risks and outcomes.",
+                color: "purple"
+            },
+            {
+                id: "o3",
+                name: "o3-Pro (max)",
+                type: ["reason"],
+                desc: "OpenAI's premier reasoning model for profound depth. (Max users)",
+                use: "Deep, iterative research on abstract concepts.",
+                rec: "Advanced academic or philosophical inquiries.",
+                prompt: "Break down the philosophical underpinnings of quantum mechanics and their implications for reality.",
+                color: "neutral"
+            }
+        ];
+
+        // === RENDER MODELS ===
+        function renderModels(filter) {
+            const grid = document.getElementById('model-grid');
+            grid.innerHTML = '';
+            
+            models.forEach(m => {
+                if (filter === 'all' || m.type.includes(filter)) {
+                    const card = document.createElement('div');
+                    card.className = `bg-white border border-slate-200 rounded-xl p-6 shadow-sm hover:shadow-xl transition-all group relative overflow-hidden fade-in`;
+                    
+                    // Color mapping for badges
+                    const colors = {
+                        green: "bg-teal-100 text-teal-800", blue: "bg-blue-100 text-blue-800", 
+                        indigo: "bg-indigo-100 text-indigo-800", orange: "bg-orange-100 text-orange-800",
+                        sky: "bg-sky-100 text-sky-800", zinc: "bg-zinc-100 text-zinc-800",
+                        pink: "bg-pink-100 text-pink-800", purple: "bg-purple-100 text-purple-800",
+                        neutral: "bg-slate-100 text-slate-800"
+                    };
+
+                    card.innerHTML = `
+                        <div class="flex items-center justify-between mb-3">
+                            <h3 class="font-bold text-lg text-slate-800 group-hover:text-indigo-600 transition-colors">${m.name}</h3>
+                            <span class="${colors[m.color]} text-[10px] font-bold px-2 py-1 rounded uppercase tracking-wide">${m.type[0]}</span>
+                        </div>
+                        <p class="text-sm text-slate-600 mb-4 leading-relaxed h-10">${m.desc}</p>
+                        
+                        <div class="bg-slate-50 p-3 rounded-lg space-y-3 text-xs border border-slate-100">
+                            <div>
+                                <span class="font-bold text-slate-400 uppercase block mb-1 text-[10px]">Priority Use</span>
+                                <p class="text-slate-700 font-medium">${m.use}</p>
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-400 uppercase block mb-1 text-[10px]">Recommended For</span>
+                                <p class="text-slate-700">${m.rec}</p>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-4 pt-3 border-t border-slate-100">
+                             <p class="text-[10px] font-mono text-slate-400 mb-1">Try this:</p>
+                             <p class="text-xs text-slate-600 italic">"${m.prompt}"</p>
+                        </div>
+                    `;
+                    grid.appendChild(card);
+                }
+            });
+        }
+
+        function filterModels(cat) {
+            // update buttons
+            document.querySelectorAll('.model-filter').forEach(b => {
+                b.classList.remove('bg-slate-800', 'text-white', 'shadow-lg', 'transform', 'scale-105');
+                b.classList.add('bg-white', 'text-slate-600', 'shadow-sm');
+            });
+            event.target.classList.remove('bg-white', 'text-slate-600', 'shadow-sm');
+            event.target.classList.add('bg-slate-800', 'text-white', 'shadow-lg', 'transform', 'scale-105');
+            renderModels(cat);
+        }
+
+        // Initial Render
+        renderModels('all');
+
+    </script>
+</body>
+</html>
